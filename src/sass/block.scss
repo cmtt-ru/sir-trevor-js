@@ -9,7 +9,7 @@
   position: relative;
 }
 
-.st-block__inner:hover {
+.st-block__inner:hover, .st-block--options-active .st-block__inner {
   border-color: $accent-color;
 }
 

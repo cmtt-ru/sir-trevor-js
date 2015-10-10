@@ -12,6 +12,7 @@ var BlockMixins = require('./block_mixins');
 var SimpleBlock = require('./simple-block');
 var BlockReorder = require('./block-reorder');
 var BlockDeletion = require('./block-deletion');
+var BlockOptions = require('./block-options');
 var BlockPositioner = require('./block-positioner');
 var EventBus = require('./event-bus');
 
@@ -34,10 +35,21 @@ var delete_template = [
   "</div>"
 ].join("\n");
 
+var options_template = [
+  "<div class='st-block__ui-options-controls'>",
+  "<label class='st-block__options-label'>",
+  //"<%= i18n.t('general:options') %>",
+  "Options",
+  "</label>",
+  "__options__",
+  "<a class='st-block-ui-btn st-block-ui-btn--deny-options st-icon' data-icon='close'></a>",
+  "</div>"
+].join("\n");
+
 Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
 
   bound: [
-    "_handleContentPaste", "_onFocus", "_onBlur", "onDrop", "onDeleteClick",
+    "_handleContentPaste", "_onFocus", "_onBlur", "onDrop", "onDeleteClick", "onOptionsClick",
     "clearInsertedStyles", "getSelectionForFormatter", "onBlockRender",
   ],
 
@@ -68,6 +80,9 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
   fetchable: false,
   ajaxable: false,
   multi_editable: false,
+
+  // Array for special block options, selected from UI and serialized from hidden input. {icon: 'icon', value: 'value', default: true}
+  // blockOptions: [],
 
   drop_options: {},
   paste_options: {},
@@ -227,6 +242,7 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
     var onDeleteDeny = function(e) {
       e.preventDefault();
       this.$el.removeClass('st-block--delete-active');
+      this.$ui.show();
       $delete_el.remove();
     };
 
@@ -236,6 +252,7 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
     }
 
     this.$inner.append(_.template(delete_template));
+    this.$ui.hide();
     this.$el.addClass('st-block--delete-active');
 
     var $delete_el = this.$inner.find('.st-block__ui-delete-controls');
@@ -244,6 +261,54 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
                    onDeleteConfirm.bind(this))
                    .on('click', '.st-block-ui-btn--deny-delete',
                        onDeleteDeny.bind(this));
+  },
+
+  onOptionsClick: function(ev) {
+    ev.preventDefault();
+
+    var onOptionsConfirm = function(e) {
+      e.preventDefault();
+      var value = $(e.target).attr('data-value');
+
+      // Set value
+      console.log(value)
+      this.$option.val(value);
+
+      // Set classes
+      this.$el.attr(
+          'class',
+          this.$el.attr('class').replace(/\bblock-option-value-\w+\b/g, '')
+      );
+      this.$el.addClass('block-option-value-' + value);
+
+
+      this.$el.removeClass('st-block--options-active');
+      this.$ui.show();
+      $options_el.remove();
+    };
+
+    var onOptionsDeny = function(e) {
+      e.preventDefault();
+      this.$el.removeClass('st-block--options-active');
+      this.$ui.show();
+      $options_el.remove();
+    };
+
+    if (this.isEmpty()) {
+      onOptionsConfirm.call(this, new Event('click'));
+      return;
+    }
+
+    this.$inner.append(_.template(options_template));
+    this.$ui.hide();
+    this.$el.addClass('st-block--options-active');
+
+    var $options_el = this.$inner.find('.st-block__ui-options-controls');
+
+    this.$inner.on('click', '.st-block-ui-btn--confirm-options',
+        onOptionsConfirm.bind(this))
+        .on('click', '.st-block-ui-btn--deny-options',
+        onOptionsDeny.bind(this));
   },
 
   beforeLoadingData: function() {
@@ -299,8 +364,30 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
     this._withUIComponent(new BlockDeletion(), '.st-block-ui-btn--delete',
                           this.onDeleteClick);
 
+    if (this.blockOptions && this.blockOptions.length) {
+      this._initOptionsUI();
+      this._withUIComponent(new BlockOptions(), '.st-block-ui-btn--options',
+          this.onOptionsClick);
+    }
+
     this.onFocus();
     this.onBlur();
+  },
+
+  _initOptionsUI: function() {
+    var optionsUI = "";
+    var defaultOption = false;
+    this.blockOptions.forEach(function(option){
+      if (option.default) defaultOption = option.value;
+      optionsUI += "<a class='st-block-ui-btn st-block-ui-btn--confirm-options st-icon' data-icon='" + option.icon + "' data-value='" + option.value + "'>" + option.text + "</a>";
+    });
+
+    options_template = options_template.replace(/__options__/,optionsUI);
+
+    var optionInput = $("<input name='option' type='hidden' value='" + defaultOption + "'>");
+    this.$el.append(optionInput);
+    this.$option = optionInput;
+    console.log(this.$el);
   },
 
   _initFormatting: function() {
