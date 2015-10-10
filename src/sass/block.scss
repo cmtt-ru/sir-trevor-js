@@ -211,3 +211,15 @@ ul.st-text-block {
 .st-msg--error {
   color: $error-color;
 }
+
+.block-option-value-h1 .st-block__inner {
+  h2 {
+    font-size: 2.6em;
+  }
+}
+
+.block-option-value-h3 .st-block__inner {
+  h2 {
+    font-size: 1.6em;
+  }
+}
