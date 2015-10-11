@@ -20,9 +20,10 @@
 <body>
   <form>
     <div class="errors"></div>
-    <textarea class="sir-trevor" name="content"></textarea>
+    <textarea class="sir-trevor" name="content">{"data":[{"type":"text","data":{"text":"Hello, I'm **Sir Trevor**.\nCreate some new blocks and see _what I can do_.\n"}},{"type":"video","data":{"source":"youtube","remote_id":"hcFLFpmc4Pg"}}]}</textarea>
     <input type="submit" value="Submit">
   </form>
+
 
   <pre id="st-json-debug"></pre>
 
@@ -32,6 +33,7 @@
   <script src="../node_modules/jquery/dist/jquery.js" type="text/javascript" charset="utf-8"></script>
   <script src="../build/sir-trevor.debug.js" type="text/javascript" charset="utf-8"></script>
   <script src="../locales/de.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../blocks/link-embed.js" type="text/javascript" charset="utf-8"></script>
   <script type="text/javascript" charset="utf-8">
     $(function(){
       SirTrevor.config.debug = true;
@@ -53,8 +55,11 @@
           "Quote",
           "Image",
           "Video",
-          "Tweet"
-        ]
+          "Tweet",
+          "LinkEmbed"
+        ],
+        defaultType: "Text",
+        required: ["Text", "LinkEmbed"]
       });
 
       $('form').bind('submit', function () {

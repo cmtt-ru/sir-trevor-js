@@ -104,12 +104,12 @@ Object.assign(Editor.prototype, require('./function-bind'), require('./events'),
 
   createBlocks: function() {
     var store = this.store.retrieve();
-
     if (store.data.length > 0) {
       store.data.forEach(function(block) {
         this.mediator.trigger('block:create', block.type, block.data);
       }, this);
     } else if (this.options.defaultType !== false) {
+      console.log(this.options.defaultType)
       this.mediator.trigger('block:create', this.options.defaultType, {});
     }
   },
