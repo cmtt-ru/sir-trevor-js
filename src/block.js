@@ -379,7 +379,9 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
     var defaultOption = false;
     this.blockOptions.forEach(function(option){
       if (option.default) defaultOption = option.value;
-      optionsUI += "<a class='st-block-ui-btn st-block-ui-btn--confirm-options st-icon' data-icon='" + option.icon + "' data-value='" + option.value + "'>" + option.text + "</a>";
+      var iconClass = '';
+      if (option.icon) iconClass = ' st-icon';
+      optionsUI += "<a class='st-block-ui-btn st-block-ui-btn--confirm-options'" + iconClass + " data-icon='" + option.icon + "' data-value='" + option.value + "'>" + option.text + "</a>";
     });
 
     options_template = options_template.replace(/__options__/,optionsUI);
