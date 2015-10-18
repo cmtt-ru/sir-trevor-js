@@ -51,7 +51,7 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
   toolbarEnabled: true,
 
   availableMixins: ['droppable', 'pastable', 'uploadable', 'fetchable',
-    'ajaxable', 'controllable', 'multi_editable', 'undeletable'],
+    'ajaxable', 'controllable', 'multi_editable', 'deletable', 'movable'],
 
   droppable: false,
   pastable: false,
@@ -59,7 +59,8 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
   fetchable: false,
   ajaxable: false,
   multi_editable: false,
-  undeletable: true,
+  deletable: true,
+  movable: true,
 
   drop_options: {},
   paste_options: {},
@@ -249,15 +250,16 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
    */
 
   _initUIComponents: function() {
+    if (this.movable) {
+      var positioner = new BlockPositioner(this.$el, this.mediator);
 
-    var positioner = new BlockPositioner(this.$el, this.mediator);
 
-    this._withUIComponent(positioner, '.st-block-ui-btn--reorder',
-                          positioner.toggle);
+      this._withUIComponent(positioner, '.st-block-ui-btn--reorder',
+          positioner.toggle);
 
-    this._withUIComponent(new BlockReorder(this.$el, this.mediator));
-
-    if (this.undeletable)
+      this._withUIComponent(new BlockReorder(this.$el, this.mediator));
+    }
+    if (this.deletable)
     this._withUIComponent(new BlockDeletion(), '.st-block-ui-btn--delete', this.onDeleteClick.bind(this));
 
     this.onFocus();

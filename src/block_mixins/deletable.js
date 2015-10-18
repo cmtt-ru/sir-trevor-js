@@ -16,9 +16,9 @@ var delete_template = [
 
 module.exports = {
 
-  mixinName: "Undeletable",
+  mixinName: "Deletable",
 
-  initializeUndeletable: function() {
+  initializeDeletable: function() {
 
     this.onDeleteClick = function(ev) {
       ev.preventDefault();
