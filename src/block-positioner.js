@@ -39,13 +39,14 @@ Object.assign(BlockPositioner.prototype, require('./function-bind'), require('./
   onBlockCountChange: function(new_count, fixed_count) {
     if (new_count !== this.total_blocks) {
       this.total_blocks = new_count;
+      if (fixed_count !== this.fixed_blocks) {
+        this.fixed_blocks = fixed_count;
+        this.mediator.trigger('block:removeAddBtns');
+      }
+      this.mediator.trigger('block:showBlockControlsOnBottom');
       this.renderPositionList();
     }
-    if (fixed_count !== this.fixed_blocks) {
-      this.fixed_blocks = fixed_count;
-      this.mediator.trigger('block:removeAddBtns');
-      this.renderPositionList();
-    }
+
 
   },
 

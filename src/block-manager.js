@@ -42,6 +42,7 @@ Object.assign(BlockManager.prototype, require('./function-bind'), require('./med
 
   initialize: function() {
     this.mediator.on('block:removeAddBtns', this._removeAddBtns.bind(this));
+    this.mediator.on('block:showBlockControlsOnBottom', this._showBlockControlsOnBottom.bind(this));
   },
 
   createBlock: function(type, data) {
@@ -211,6 +212,14 @@ Object.assign(BlockManager.prototype, require('./function-bind'), require('./med
       for (var i = 1; i < this.blocks.length - 1; i++) {
         if (!this.blocks[i].$el.hasClass('st-block--not-fixed')) this.blocks[i-1].$el.addClass('st-block--remove-add');
       }
+    }
+  },
+
+  _showBlockControlsOnBottom: function() {
+    console.log('length', this.blocks.length);
+    if (this.blocks.length > 0) {
+      this.mediator.trigger('block-controls:render', this.blocks[this.blocks.length - 1].$el);
+
     }
   }
 
