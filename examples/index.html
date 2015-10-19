@@ -34,6 +34,7 @@
   <script src="../build/sir-trevor.debug.js" type="text/javascript" charset="utf-8"></script>
   <script src="../locales/de.js" type="text/javascript" charset="utf-8"></script>
   <script src="../blocks/link-embed.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../blocks/text-fixed.js" type="text/javascript" charset="utf-8"></script>
   <script type="text/javascript" charset="utf-8">
     $(function(){
       SirTrevor.config.debug = true;
@@ -56,11 +57,12 @@
           "Image",
           "Video",
           "Tweet",
-          "LinkEmbed"
+          "LinkEmbed",
+          "TextFixed"
         ],
         defaultType: "Text",
         required: ["Text", "LinkEmbed"],
-        fixedBlocks: ["text", "link_embed"]
+        fixedBlocks: ["link_embed", "text_fixed"]
       });
 
       $('form').bind('submit', function () {

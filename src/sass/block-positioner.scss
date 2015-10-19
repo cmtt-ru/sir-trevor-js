@@ -51,3 +51,9 @@
     }
   }
 }
+
+.st-block--remove-add {
+  &:after {
+    content: none !important;
+  }
+}

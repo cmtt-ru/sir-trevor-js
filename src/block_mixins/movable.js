@@ -10,7 +10,7 @@ module.exports = {
 
   initializeMovable: function() {
 
-
+    this.$el.addClass('st-block--not-fixed');
 
   },
 

@@ -11,7 +11,7 @@ var utils = require('../utils');
 
 
 var EditorStore = function(data, mediator, fixedBlocks) {
-  this.fixedBlocks = fixedBlocks;
+  this.fixedBlocks = fixedBlocks.reverse();
   this.mediator = mediator;
   this.initialize(data ? data.trim() : '');
 };

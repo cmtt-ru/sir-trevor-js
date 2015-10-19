@@ -40,7 +40,9 @@ Object.assign(BlockManager.prototype, require('./function-bind'), require('./med
     'rerender': 'rerenderBlock'
   },
 
-  initialize: function() {},
+  initialize: function() {
+    this.mediator.on('block:removeAddBtns', this._removeAddBtns.bind(this));
+  },
 
   createBlock: function(type, data) {
     type = utils.classify(type);
@@ -87,7 +89,7 @@ Object.assign(BlockManager.prototype, require('./function-bind'), require('./med
   },
 
   triggerBlockCountUpdate: function() {
-    this.mediator.trigger('block:countUpdate', this.blocks.length);
+    this.mediator.trigger('block:countUpdate', this.blocks.length, this.options.fixedBlocks.length);
   },
 
   canCreateBlock: function(type) {
@@ -201,6 +203,15 @@ Object.assign(BlockManager.prototype, require('./function-bind'), require('./med
   _getBlockTypeLimit: function(t) {
     if (!this.isBlockTypeAvailable(t)) { return 0; }
     return parseInt((_.isUndefined(this.options.blockTypeLimits[t])) ? 0 : this.options.blockTypeLimits[t], 10);
+  },
+
+  _removeAddBtns: function() {
+    console.log('log', this);
+    if (this.blocks.length > 1) {
+      for (var i = 1; i < this.blocks.length - 1; i++) {
+        if (!this.blocks[i].$el.hasClass('st-block--not-fixed')) this.blocks[i-1].$el.addClass('st-block--remove-add');
+      }
+    }
   }
 
 });
