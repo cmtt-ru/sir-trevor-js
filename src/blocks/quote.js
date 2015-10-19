@@ -21,7 +21,6 @@ module.exports = Block.extend({
   type: "quote",
 
   title: function() { return i18n.t('blocks:quote:title'); },
-  blockOptions: [{icon: 'tick', value: 'small', default: true},{icon: 'tick', value: 'big'}],
 
   icon_name: 'quote',
 

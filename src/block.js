@@ -35,7 +35,7 @@ var delete_template = [
   "</div>"
 ].join("\n");
 
-var options_template = [
+var options_basic_template = [
   "<div class='st-block__ui-options-controls'>",
   "<label class='st-block__options-label'>",
   //"<%= i18n.t('general:options') %>",
@@ -87,6 +87,8 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
   drop_options: {},
   paste_options: {},
   upload_options: {},
+
+  options_template: '',
 
   formattable: true,
 
@@ -299,7 +301,7 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
       return;
     }
 
-    this.$inner.append(_.template(options_template));
+    this.$inner.append(_.template(this.options_template));
     this.$ui.hide();
     this.$el.addClass('st-block--options-active');
 
@@ -381,15 +383,14 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
       if (option.default) defaultOption = option.value;
       var iconClass = '';
       if (option.icon) iconClass = ' st-icon';
+      if (_.isUndefined(option.text)) option.text = '';
       optionsUI += "<a class='st-block-ui-btn st-block-ui-btn--confirm-options'" + iconClass + " data-icon='" + option.icon + "' data-value='" + option.value + "'>" + option.text + "</a>";
     });
-
-    options_template = options_template.replace(/__options__/,optionsUI);
+    this.options_template = options_basic_template.replace(/__options__/,optionsUI);
 
     var optionInput = $("<input name='option' type='hidden' value='" + defaultOption + "'>");
     this.$el.append(optionInput);
     this.$option = optionInput;
-    console.log(this.$el);
   },
 
   _initFormatting: function() {

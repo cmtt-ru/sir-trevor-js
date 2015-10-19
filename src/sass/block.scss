@@ -213,13 +213,19 @@ ul.st-text-block {
 }
 
 .block-option-value-h3 .st-block__inner {
-  h2 {
+  h2.st-text-block--heading {
     font-size: 2.0em;
   }
 }
 
 .block-option-value-h4 .st-block__inner {
-  h2 {
+  h2.st-text-block--heading {
     font-size: 1.8em;
+  }
+}
+
+.block-option-value-ol .st-block__inner {
+  ul.st-list-block__list {
+    list-style: decimal;
   }
 }
