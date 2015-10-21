@@ -10,7 +10,8 @@ var _ = require('../lodash');
 var utils = require('../utils');
 
 
-var EditorStore = function(data, mediator) {
+var EditorStore = function(data, mediator, fixedBlocks) {
+  this.fixedBlocks = fixedBlocks.reverse();
   this.mediator = mediator;
   this.initialize(data ? data.trim() : '');
 };
@@ -18,7 +19,9 @@ var EditorStore = function(data, mediator) {
 Object.assign(EditorStore.prototype, {
 
   initialize: function(data) {
+
     this.store = this._parseData(data) || { data: [] };
+    this.fixedBlocks.forEach(this._addFixed.bind(this));
   },
 
   retrieve: function() {
@@ -62,6 +65,14 @@ Object.assign(EditorStore.prototype, {
     }
 
     return result;
+  },
+
+  _addFixed: function (fixedBlockType) {
+    utils.log(this);
+    utils.log(this.store);
+    var fixedData = {data: {}, type:fixedBlockType};
+    this.store.data.unshift(fixedData);
+    return this.store;
   }
 
 });

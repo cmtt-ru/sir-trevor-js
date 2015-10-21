@@ -74,7 +74,8 @@ Object.assign(Editor.prototype, require('./function-bind'), require('./events'),
     this.$el.hide();
 
     this.errorHandler = new ErrorHandler(this.$outer, this.mediator, this.options.errorsContainer);
-    this.store = new EditorStore(this.$el.val(), this.mediator);
+
+    this.store = new EditorStore(this.$el.val(), this.mediator, this.options.fixedBlocks);
     this.block_manager = new BlockManager(this.options, this.ID, this.mediator);
     this.block_controls = new BlockControls(this.block_manager.blockTypes, this.mediator);
     this.fl_block_controls = new FloatingBlockControls(this.$wrapper, this.ID, this.mediator);
@@ -89,7 +90,7 @@ Object.assign(Editor.prototype, require('./function-bind'), require('./events'),
 
     this._setEvents();
 
-    this.$wrapper.prepend(this.fl_block_controls.render().$el);
+    if (!this.options.fixedBlocks) this.$wrapper.prepend(this.fl_block_controls.render().$el);
     this.$outer.append(this.block_controls.render().$el);
 
     $(window).bind('click', this.hideAllTheThings);
@@ -104,12 +105,12 @@ Object.assign(Editor.prototype, require('./function-bind'), require('./events'),
 
   createBlocks: function() {
     var store = this.store.retrieve();
-
     if (store.data.length > 0) {
       store.data.forEach(function(block) {
         this.mediator.trigger('block:create', block.type, block.data);
       }, this);
     } else if (this.options.defaultType !== false) {
+      console.log(this.options.defaultType)
       this.mediator.trigger('block:create', this.options.defaultType, {});
     }
   },
