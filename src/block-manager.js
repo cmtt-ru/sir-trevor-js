@@ -41,6 +41,7 @@ Object.assign(BlockManager.prototype, require('./function-bind'), require('./med
   },
 
   initialize: function() {
+    this.mediator.on('block:removeCover', this._removeCover.bind(this));
     this.mediator.on('block:removeAddBtns', this._removeAddBtns.bind(this));
     this.mediator.on('block:showBlockControlsOnBottom', this._showBlockControlsOnBottom.bind(this));
   },
@@ -210,6 +211,18 @@ Object.assign(BlockManager.prototype, require('./function-bind'), require('./med
     if (!this.isBlockTypeAvailable(t)) { return 0; }
     return parseInt((_.isUndefined(this.options.blockTypeLimits[t])) ? 0 : this.options.blockTypeLimits[t], 10);
   },
+
+  _removeCover: function(t, id) {
+    this.getBlocksByType(utils.classify(t)).forEach(function(block){
+      if (block.blockID != id) {
+        block.isCover = false;
+        block.$set_cover_ui.html( i18n.t('blocks:image:set_cover') );
+      }
+      else {
+        block.$set_cover_ui.html( i18n.t('blocks:image:cover') );
+      }
+      block.$coverInput.val(block.isCover);
+    });
 
   _removeAddBtns: function() {
     console.log('log', this);

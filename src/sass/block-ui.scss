@@ -1,5 +1,6 @@
 .st-block__ui,
-.st-block__ui-delete-controls {
+.st-block__ui-delete-controls,
+.st-block__ui-options-controls {
   position: absolute;
   bottom: 0;  right: 0;
   opacity: 0;
@@ -64,9 +65,21 @@
   }
 }
 
+.st-block--options-active .st-block-ui-btn,
+.st-block--options-active .st-block-control-ui-btn {
+  color: $accent-color;
+  border-color: $accent-color;
+
+  &:hover,
+  &.active {
+    color: #fff;
+    background-color: $accent-color;
+  }
+}
+
 .st-block--with-errors,
-.st-block--delete-active {
-  .st-block__ui-delete-controls {
+.st-block--delete-active, .st-block--options-active {
+  .st-block__ui-delete-controls, .st-block__ui-options-controls {
     opacity: 1;
     z-index: 2;
   }
@@ -81,4 +94,19 @@
   background: #fff;
   color: $error-color;
   padding: 0.4em 0;
+}
+
+.st-block__options-label {
+  display: block;
+  border: $border-size $border-style $accent-color;
+  border-bottom: none;
+  border-right: none;
+  text-align: center;
+  background: #fff;
+  color: $accent-color;
+  padding: 0.4em 0;
+}
+
+.st-block-ui-image-cover {
+  line-height: normal;
 }
