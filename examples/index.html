@@ -32,9 +32,14 @@
   <!-- <script src="../node_modules/es6-shim/es6-shim.js" type="text/javascript" charset="utf-8"></script> -->
   <script src="../node_modules/jquery/dist/jquery.js" type="text/javascript" charset="utf-8"></script>
   <script src="../build/sir-trevor.debug.js" type="text/javascript" charset="utf-8"></script>
+<<<<<<< HEAD
   <script src="../locales/de.js" type="text/javascript" charset="utf-8"></script>
   <script src="../blocks/link-embed.js" type="text/javascript" charset="utf-8"></script>
   <script src="../blocks/text-fixed.js" type="text/javascript" charset="utf-8"></script>
+=======
+  <script src="../locales/ru.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../blocks/text_limited.js" type="text/javascript" charset="utf-8"></script>
+>>>>>>> master
   <script type="text/javascript" charset="utf-8">
     $(function(){
       SirTrevor.config.debug = true;
@@ -45,6 +50,10 @@
         onBlockRender: function() {
           console.log("Text block rendered");
         }
+      });
+
+      SirTrevor.setBlockOptions("TextLimited", {
+        text_limit: 350
       });
 
       window.editor = new SirTrevor.Editor({
@@ -58,7 +67,8 @@
           "Video",
           "Tweet",
           "LinkEmbed",
-          "TextFixed"
+          "TextFixed",
+          "TextLimited"
         ],
         defaultType: "Text",
         required: ["Text", "LinkEmbed"],
