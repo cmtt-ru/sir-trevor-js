@@ -72,7 +72,11 @@
         ],
         defaultType: "Text",
         required: ["Text", "LinkEmbed"],
-        fixedBlocks: ["link_embed", "text_fixed"]
+        fixedBlocks: ["link_embed", "text_fixed"],
+        blockGroupLimit: {
+            types: ["Video", "Tweet"],
+            limit: 2
+        }
       });
 
       $('form').bind('submit', function () {

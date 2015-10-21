@@ -110,6 +110,11 @@ Object.assign(BlockManager.prototype, require('./function-bind'), require('./med
       return false;
     }
 
+    if (this._isBlockGroupLimitReached(type)) {
+      utils.log("Group Block Limit reached for type " + type);
+      return false;
+    }
+
     return true;
   },
 
@@ -220,7 +225,20 @@ Object.assign(BlockManager.prototype, require('./function-bind'), require('./med
     if (this.blocks.length > 0) {
       this.mediator.trigger('block-controls:render', this.blocks[this.blocks.length - 1].$el);
 
+    },
+
+  _isBlockGroupLimitReached: function(t) {
+    if (_.isUndefined(this.options.blockGroupLimit)) return false;
+    var limits = this.options.blockGroupLimit;
+    var totalGroupCount = 0;
+    if (limits.types.indexOf(t) > -1) {
+      console.log('has type?')
+      limits.types.forEach(function(type){
+        totalGroupCount += this._getBlockTypeCount(type);
+      }, this);
+      if (totalGroupCount >= limits.limit) return true;
     }
+    return false;
   }
 
 });
