@@ -40,7 +40,10 @@ Object.assign(BlockManager.prototype, require('./function-bind'), require('./med
     'rerender': 'rerenderBlock'
   },
 
-  initialize: function() {},
+  initialize: function() {
+    this.mediator.on('block:removeAddBtns', this._removeAddBtns.bind(this));
+    this.mediator.on('block:showBlockControlsOnBottom', this._showBlockControlsOnBottom.bind(this));
+  },
 
   createBlock: function(type, data) {
     type = utils.classify(type);
@@ -87,7 +90,7 @@ Object.assign(BlockManager.prototype, require('./function-bind'), require('./med
   },
 
   triggerBlockCountUpdate: function() {
-    this.mediator.trigger('block:countUpdate', this.blocks.length);
+    this.mediator.trigger('block:countUpdate', this.blocks.length, this.options.fixedBlocks.length);
   },
 
   canCreateBlock: function(type) {
@@ -207,6 +210,22 @@ Object.assign(BlockManager.prototype, require('./function-bind'), require('./med
     if (!this.isBlockTypeAvailable(t)) { return 0; }
     return parseInt((_.isUndefined(this.options.blockTypeLimits[t])) ? 0 : this.options.blockTypeLimits[t], 10);
   },
+
+  _removeAddBtns: function() {
+    console.log('log', this);
+    if (this.blocks.length > 1) {
+      for (var i = 1; i < this.blocks.length - 1; i++) {
+        if (!this.blocks[i].$el.hasClass('st-block--not-fixed')) this.blocks[i-1].$el.addClass('st-block--remove-add');
+      }
+    }
+  },
+
+  _showBlockControlsOnBottom: function() {
+    console.log('length', this.blocks.length);
+    if (this.blocks.length > 0) {
+      this.mediator.trigger('block-controls:render', this.blocks[this.blocks.length - 1].$el);
+
+    },
 
   _isBlockGroupLimitReached: function(t) {
     if (_.isUndefined(this.options.blockGroupLimit)) return false;

@@ -20,6 +20,7 @@ var BlockPositioner = function(block_element, mediator) {
 Object.assign(BlockPositioner.prototype, require('./function-bind'), require('./renderable'), {
 
   total_blocks: 0,
+  fixed_blocks: 0,
 
   bound: ['onBlockCountChange', 'onSelectChange', 'toggle', 'show', 'hide'],
 
@@ -35,11 +36,18 @@ Object.assign(BlockPositioner.prototype, require('./function-bind'), require('./
     this.mediator.on("block:countUpdate", this.onBlockCountChange);
   },
 
-  onBlockCountChange: function(new_count) {
+  onBlockCountChange: function(new_count, fixed_count) {
     if (new_count !== this.total_blocks) {
       this.total_blocks = new_count;
+      if (fixed_count !== this.fixed_blocks) {
+        this.fixed_blocks = fixed_count;
+        this.mediator.trigger('block:removeAddBtns');
+      }
+      this.mediator.trigger('block:showBlockControlsOnBottom');
       this.renderPositionList();
     }
+
+
   },
 
   onSelectChange: function() {
@@ -53,8 +61,9 @@ Object.assign(BlockPositioner.prototype, require('./function-bind'), require('./
   },
 
   renderPositionList: function() {
+    console.log('test', this);
     var inner = "<option value='0'>" + i18n.t("general:position") + "</option>";
-    for(var i = 1; i <= this.total_blocks; i++) {
+    for(var i = this.fixed_blocks+1; i <= this.total_blocks; i++) {
       inner += "<option value="+i+">"+i+"</option>";
     }
     this.$select.html(inner);
@@ -71,7 +80,7 @@ Object.assign(BlockPositioner.prototype, require('./function-bind'), require('./
 
   hide: function(){
     this.$el.removeClass(this.visibleClass);
-  }
+  },
 
 });
 

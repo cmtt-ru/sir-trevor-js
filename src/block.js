@@ -12,6 +12,7 @@ var BlockMixins = require('./block_mixins');
 var SimpleBlock = require('./simple-block');
 var BlockReorder = require('./block-reorder');
 var BlockDeletion = require('./block-deletion');
+
 var BlockPositioner = require('./block-positioner');
 var EventBus = require('./event-bus');
 
@@ -24,20 +25,10 @@ var Block = function(data, instance_id, mediator, options) {
 Block.prototype = Object.create(SimpleBlock.prototype);
 Block.prototype.constructor = Block;
 
-var delete_template = [
-  "<div class='st-block__ui-delete-controls'>",
-  "<label class='st-block__delete-label'>",
-  "<%= i18n.t('general:delete') %>",
-  "</label>",
-  "<a class='st-block-ui-btn st-block-ui-btn--confirm-delete st-icon' data-icon='tick'></a>",
-  "<a class='st-block-ui-btn st-block-ui-btn--deny-delete st-icon' data-icon='close'></a>",
-  "</div>"
-].join("\n");
-
 Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
 
   bound: [
-    "_handleContentPaste", "_onFocus", "_onBlur", "onDrop", "onDeleteClick",
+    "_handleContentPaste", "_onFocus", "_onBlur", "onDrop",
     "clearInsertedStyles", "getSelectionForFormatter", "onBlockRender",
   ],
 
@@ -60,7 +51,7 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
   toolbarEnabled: true,
 
   availableMixins: ['droppable', 'pastable', 'uploadable', 'fetchable',
-    'ajaxable', 'controllable', 'multi_editable'],
+    'ajaxable', 'controllable', 'multi_editable', 'deletable', 'movable'],
 
   droppable: false,
   pastable: false,
@@ -68,6 +59,8 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
   fetchable: false,
   ajaxable: false,
   multi_editable: false,
+  deletable: true,
+  movable: true,
 
   drop_options: {},
   paste_options: {},
@@ -215,37 +208,6 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
 
   onDrop: function(dataTransferObj) {},
 
-  onDeleteClick: function(ev) {
-    ev.preventDefault();
-
-    var onDeleteConfirm = function(e) {
-      e.preventDefault();
-      this.mediator.trigger('block:remove', this.blockID);
-      this.remove();
-    };
-
-    var onDeleteDeny = function(e) {
-      e.preventDefault();
-      this.$el.removeClass('st-block--delete-active');
-      $delete_el.remove();
-    };
-
-    if (this.isEmpty()) {
-      onDeleteConfirm.call(this, new Event('click'));
-      return;
-    }
-
-    this.$inner.append(_.template(delete_template));
-    this.$el.addClass('st-block--delete-active');
-
-    var $delete_el = this.$inner.find('.st-block__ui-delete-controls');
-
-    this.$inner.on('click', '.st-block-ui-btn--confirm-delete',
-                   onDeleteConfirm.bind(this))
-                   .on('click', '.st-block-ui-btn--deny-delete',
-                       onDeleteDeny.bind(this));
-  },
-
   beforeLoadingData: function() {
     this.loading();
 
@@ -288,16 +250,17 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
    */
 
   _initUIComponents: function() {
+    if (this.movable) {
+      var positioner = new BlockPositioner(this.$el, this.mediator);
 
-    var positioner = new BlockPositioner(this.$el, this.mediator);
 
-    this._withUIComponent(positioner, '.st-block-ui-btn--reorder',
-                          positioner.toggle);
+      this._withUIComponent(positioner, '.st-block-ui-btn--reorder',
+          positioner.toggle);
 
-    this._withUIComponent(new BlockReorder(this.$el, this.mediator));
-
-    this._withUIComponent(new BlockDeletion(), '.st-block-ui-btn--delete',
-                          this.onDeleteClick);
+      this._withUIComponent(new BlockReorder(this.$el, this.mediator));
+    }
+    if (this.deletable)
+    this._withUIComponent(new BlockDeletion(), '.st-block-ui-btn--delete', this.onDeleteClick.bind(this));
 
     this.onFocus();
     this.onBlur();
