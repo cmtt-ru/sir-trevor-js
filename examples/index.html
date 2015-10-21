@@ -60,7 +60,12 @@
           "Video",
           "Tweet",
           "TextLimited"
-        ]
+        ],
+
+        blockGroupLimit: {
+            types: ["Video", "Tweet"],
+            limit: 2
+        }
       });
 
       $('form').bind('submit', function () {
