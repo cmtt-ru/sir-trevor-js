@@ -109,6 +109,11 @@ Object.assign(BlockManager.prototype, require('./function-bind'), require('./med
       return false;
     }
 
+    if (this._isBlockGroupLimitReached(type)) {
+      utils.log("Group Block Limit reached for type " + type);
+      return false;
+    }
+
     return true;
   },
 
@@ -205,6 +210,7 @@ Object.assign(BlockManager.prototype, require('./function-bind'), require('./med
     return parseInt((_.isUndefined(this.options.blockTypeLimits[t])) ? 0 : this.options.blockTypeLimits[t], 10);
   },
 
+
   _removeCover: function(t, id) {
     this.getBlocksByType(utils.classify(t)).forEach(function(block){
       if (block.blockID != id) {
@@ -216,6 +222,19 @@ Object.assign(BlockManager.prototype, require('./function-bind'), require('./med
       }
       block.$coverInput.val(block.isCover);
     });
+
+  _isBlockGroupLimitReached: function(t) {
+    if (_.isUndefined(this.options.blockGroupLimit)) return false;
+    var limits = this.options.blockGroupLimit;
+    var totalGroupCount = 0;
+    if (limits.types.indexOf(t) > -1) {
+      console.log('has type?')
+      limits.types.forEach(function(type){
+        totalGroupCount += this._getBlockTypeCount(type);
+      }, this);
+      if (totalGroupCount >= limits.limit) return true;
+    }
+    return false;
   }
 
 });
