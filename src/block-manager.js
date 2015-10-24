@@ -223,9 +223,9 @@ Object.assign(BlockManager.prototype, require('./function-bind'), require('./med
       }
       block.$coverInput.val(block.isCover);
     });
+  },
 
   _removeAddBtns: function() {
-    console.log('log', this);
     if (this.blocks.length > 1) {
       for (var i = 1; i < this.blocks.length - 1; i++) {
         if (!this.blocks[i].$el.hasClass('st-block--not-fixed')) this.blocks[i-1].$el.addClass('st-block--remove-add');
@@ -234,11 +234,10 @@ Object.assign(BlockManager.prototype, require('./function-bind'), require('./med
   },
 
   _showBlockControlsOnBottom: function() {
-    console.log('length', this.blocks.length);
     if (this.blocks.length > 0) {
       this.mediator.trigger('block-controls:render', this.blocks[this.blocks.length - 1].$el);
-
-    },
+    }
+  },
 
   _isBlockGroupLimitReached: function(t) {
     if (_.isUndefined(this.options.blockGroupLimit)) return false;

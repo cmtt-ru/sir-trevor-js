@@ -12,11 +12,7 @@ var BlockMixins = require('./block_mixins');
 var SimpleBlock = require('./simple-block');
 var BlockReorder = require('./block-reorder');
 var BlockDeletion = require('./block-deletion');
-<<<<<<< HEAD
 var BlockOptions = require('./block-options');
-=======
-
->>>>>>> master
 var BlockPositioner = require('./block-positioner');
 var EventBus = require('./event-bus');
 
@@ -29,7 +25,6 @@ var Block = function(data, instance_id, mediator, options) {
 Block.prototype = Object.create(SimpleBlock.prototype);
 Block.prototype.constructor = Block;
 
-<<<<<<< HEAD
 var delete_template = [
   "<div class='st-block__ui-delete-controls'>",
   "<label class='st-block__delete-label'>",
@@ -55,12 +50,6 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
 
   bound: [
     "_handleContentPaste", "_onFocus", "_onBlur", "onDrop", "onDeleteClick", "onOptionsClick",
-=======
-Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
-
-  bound: [
-    "_handleContentPaste", "_onFocus", "_onBlur", "onDrop",
->>>>>>> master
     "clearInsertedStyles", "getSelectionForFormatter", "onBlockRender",
   ],
 
@@ -245,7 +234,6 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
 
   onDrop: function(dataTransferObj) {},
 
-<<<<<<< HEAD
   onDeleteClick: function(ev) {
     ev.preventDefault();
 
@@ -327,8 +315,6 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
         onOptionsDeny.bind(this));
   },
 
-=======
->>>>>>> master
   beforeLoadingData: function() {
     this.loading();
 
