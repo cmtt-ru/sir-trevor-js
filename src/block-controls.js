@@ -8,6 +8,7 @@
 
 var _ = require('./lodash');
 var $ = require('jquery');
+var utils = require('./utils');
 
 var Blocks = require('./blocks');
 var BlockControl = require('./block-control');
@@ -26,7 +27,7 @@ var BlockControls = function(available_types, mediator) {
 
 Object.assign(BlockControls.prototype, require('./function-bind'), require('./mediated-events'), require('./renderable'), require('./events'), {
 
-  bound: ['handleControlButtonClick'],
+  bound: ['handleControlButtonClick', 'deactivateBlockControl', 'reactivateBlockControl'],
   block_controls: null,
 
   className: "st-block-controls",
@@ -50,6 +51,8 @@ Object.assign(BlockControls.prototype, require('./function-bind'), require('./me
 
     this.$el.delegate('.st-block-control', 'click', this.handleControlButtonClick);
     this.mediator.on('block-controls:show', this.renderInContainer);
+    this.mediator.on('block:notavailable',this.deactivateBlockControl);
+    this.mediator.on('block:available',this.reactivateBlockControl);
   },
 
   show: function() {
@@ -86,6 +89,16 @@ Object.assign(BlockControls.prototype, require('./function-bind'), require('./me
       this.currentContainer.removeClass("with-st-controls");
       this.currentContainer = undefined;
     }
+  },
+
+  deactivateBlockControl: function(type) {
+    console.log('not available', utils.toSlug(type), this);
+    this.$el.find('a[data-type="' + utils.toSlug(type) + '"]').addClass('st-block-control--disabled');
+  },
+
+  reactivateBlockControl: function(type) {
+    console.log('available', utils.toSlug(type), this);
+    this.$el.find('a[data-type="' + utils.toSlug(type) + '"]').removeClass('st-block-control--disabled');
   }
 });
 

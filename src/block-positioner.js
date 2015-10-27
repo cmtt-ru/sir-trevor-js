@@ -61,7 +61,6 @@ Object.assign(BlockPositioner.prototype, require('./function-bind'), require('./
   },
 
   renderPositionList: function() {
-    console.log('test', this);
     var inner = "<option value='0'>" + i18n.t("general:position") + "</option>";
     for(var i = this.fixed_blocks+1; i <= this.total_blocks; i++) {
       inner += "<option value="+i+">"+i+"</option>";

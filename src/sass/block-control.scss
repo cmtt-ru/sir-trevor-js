@@ -50,3 +50,7 @@
 .st-block-control:hover {
   color: $accent-color;
 }
+
+.st-block-control--disabled {
+  color: #cfcfcf;
+}
