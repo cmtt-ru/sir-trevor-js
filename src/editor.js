@@ -90,7 +90,7 @@ Object.assign(Editor.prototype, require('./function-bind'), require('./events'),
 
     this._setEvents();
 
-    if (!this.options.fixedBlocks) this.$wrapper.prepend(this.fl_block_controls.render().$el);
+    if (!this.options.fixedBlocks) { this.$wrapper.prepend(this.fl_block_controls.render().$el); }
     this.$outer.append(this.block_controls.render().$el);
 
     $(window).bind('click', this.hideAllTheThings);
@@ -110,7 +110,6 @@ Object.assign(Editor.prototype, require('./function-bind'), require('./events'),
         this.mediator.trigger('block:create', block.type, block.data);
       }, this);
     } else if (this.options.defaultType !== false) {
-      console.log(this.options.defaultType)
       this.mediator.trigger('block:create', this.options.defaultType, {});
     }
   },

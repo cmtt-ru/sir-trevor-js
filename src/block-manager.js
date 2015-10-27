@@ -214,7 +214,7 @@ Object.assign(BlockManager.prototype, require('./function-bind'), require('./med
 
   _removeCover: function(t, id) {
     this.getBlocksByType(utils.classify(t)).forEach(function(block){
-      if (block.blockID != id) {
+      if (block.blockID !== id) {
         block.isCover = false;
         block.$set_cover_ui.html( i18n.t('blocks:image:set_cover') );
       }
@@ -228,7 +228,9 @@ Object.assign(BlockManager.prototype, require('./function-bind'), require('./med
   _removeAddBtns: function() {
     if (this.blocks.length > 1) {
       for (var i = 1; i < this.blocks.length - 1; i++) {
-        if (!this.blocks[i].$el.hasClass('st-block--not-fixed')) this.blocks[i-1].$el.addClass('st-block--remove-add');
+        if (!this.blocks[i].$el.hasClass('st-block--not-fixed')){
+          this.blocks[i-1].$el.addClass('st-block--remove-add');
+        }
       }
     }
   },
@@ -240,15 +242,14 @@ Object.assign(BlockManager.prototype, require('./function-bind'), require('./med
   },
 
   _isBlockGroupLimitReached: function(t) {
-    if (_.isUndefined(this.options.blockGroupLimit)) return false;
+    if (_.isUndefined(this.options.blockGroupLimit)) { return false; }
     var limits = this.options.blockGroupLimit;
     var totalGroupCount = 0;
     if (limits.types.indexOf(t) > -1) {
-      console.log('has type?')
       limits.types.forEach(function(type){
         totalGroupCount += this._getBlockTypeCount(type);
       }, this);
-      if (totalGroupCount >= limits.limit) return true;
+      if (totalGroupCount >= limits.limit) { return true; }
     }
     return false;
   }

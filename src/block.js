@@ -275,7 +275,6 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
       var value = $(e.target).attr('data-value');
 
       // Set value
-      console.log(value)
       this.$option.val(value);
 
       // Set classes
@@ -366,8 +365,9 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
 
       this._withUIComponent(new BlockReorder(this.$el, this.mediator));
     }
-    if (this.deletable)
-    this._withUIComponent(new BlockDeletion(), '.st-block-ui-btn--delete', this.onDeleteClick.bind(this));
+    if (this.deletable) {
+      this._withUIComponent(new BlockDeletion(), '.st-block-ui-btn--delete', this.onDeleteClick.bind(this));
+    }
 
     if (this.blockOptions && this.blockOptions.length) {
       this._initOptionsUI();
@@ -383,10 +383,10 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
     var optionsUI = "";
     var defaultOption = false;
     this.blockOptions.forEach(function(option){
-      if (option.default) defaultOption = option.value;
+      if (option.default) { defaultOption = option.value; }
       var iconClass = '';
-      if (option.icon) iconClass = ' st-icon';
-      if (_.isUndefined(option.text)) option.text = '';
+      if (option.icon) { iconClass = ' st-icon'; }
+      if (_.isUndefined(option.text)) { option.text = ''; }
       optionsUI += "<a class='st-block-ui-btn st-block-ui-btn--confirm-options'" + iconClass + " data-icon='" + option.icon + "' data-value='" + option.value + "'>" + option.text + "</a>";
     });
     this.options_template = options_basic_template.replace(/__options__/,optionsUI);
