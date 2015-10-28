@@ -80,7 +80,11 @@
         blockGroupLimit: {
             types: ["Video", "Tweet"],
             limit: 2
-        }
+        },
+          blockTypeLimits: {
+              "List": 3,
+
+          }
       });
 
       $('form').bind('submit', function () {

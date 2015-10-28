@@ -44,6 +44,7 @@ Object.assign(BlockManager.prototype, require('./function-bind'), require('./med
     this.mediator.on('block:removeCover', this._removeCover.bind(this));
     this.mediator.on('block:removeAddBtns', this._removeAddBtns.bind(this));
     this.mediator.on('block:showBlockControlsOnBottom', this._showBlockControlsOnBottom.bind(this));
+    this.mediator.on('block:getLimitCounters', this._sendControlLimits.bind(this));
   },
 
   createBlock: function(type, data) {
@@ -62,7 +63,7 @@ Object.assign(BlockManager.prototype, require('./function-bind'), require('./med
     this.triggerBlockCountUpdate();
     this.mediator.trigger('block:limitReached', this.blockLimitReached());
 
-    this.checkBlockAdd(type);
+    this._updateControlLimits(type,false);
 
     EventBus.trigger(data ? "block:create:existing" : "block:create:new", block);
     utils.log("Block created of type " + type);
@@ -81,7 +82,7 @@ Object.assign(BlockManager.prototype, require('./function-bind'), require('./med
     this.triggerBlockCountUpdate();
     this.mediator.trigger('block:limitReached', this.blockLimitReached());
 
-    this.checkBlockRemove(type);
+    this._updateControlLimits(type,true);
 
     EventBus.trigger("block:remove");
   },
@@ -258,32 +259,20 @@ Object.assign(BlockManager.prototype, require('./function-bind'), require('./med
     return false;
   },
 
-  checkBlockAdd: function (type) {
-    if (!_.isUndefined(this.options.blockGroupLimit) && this.options.blockGroupLimit.types.indexOf(type) > -1 && this._isBlockGroupLimitReached(type)) {
-      var limits = this.options.blockGroupLimit;
-      limits.types.forEach(function(type){
-        this.mediator.trigger('block:notavailable', type);
-      }, this);
-    }
-    else {
-      var isBlockAvailable = this.canCreateBlock(type);
-      if (!isBlockAvailable) {
-        this.mediator.trigger('block:notavailable', type);
-      }
-    }
+  _sendControlLimits: function () {
+    this.mediator.trigger('block-controls:setControlsLimits',this.options.blockGroupLimit, this.options.blockTypeLimits);
   },
 
-  checkBlockRemove: function (type) {
-    if (!_.isUndefined(this.options.blockGroupLimit) && this.options.blockGroupLimit.types.indexOf(type) > -1 && !this._isBlockGroupLimitReached(type)) {
+  _updateControlLimits: function(type, increase) {
+    this.mediator.trigger('block-control:updateLimitCounter', type, increase);
+    if (!_.isUndefined(this.options.blockGroupLimit)) {
       var limits = this.options.blockGroupLimit;
-      limits.types.forEach(function(type){
-        this.mediator.trigger('block:available', type);
-      }, this);
-    }
-    else {
-      var isBlockAvailable = this.canCreateBlock(type);
-      if (isBlockAvailable) {
-        this.mediator.trigger('block:available', type);
+      if (limits.types.indexOf(type) > -1) {
+        limits.types.forEach(function(t){
+          if (t!=type){
+            this.mediator.trigger('block-control:updateLimitCounter', t, increase);
+          }
+        }, this);
       }
     }
   }
