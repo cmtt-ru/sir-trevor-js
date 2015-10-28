@@ -1,5 +1,4 @@
 SirTrevor.Blocks.ImageExtended = SirTrevor.Blocks.Image.extend({
-
     type: "image_extended",
     title: function() { return i18n.t('blocks:image:title'); },
 
@@ -18,7 +17,7 @@ SirTrevor.Blocks.ImageExtended = SirTrevor.Blocks.Image.extend({
     onBlockRender: function(){
         /* Setup the upload button */
         this.$inputs.find('button').bind('click', function(ev){ ev.preventDefault(); });
-        this.$inputs.find('input').on('change', _.bind(function(ev){
+        this.$inputs.find('input').on('change', $.proxy(function(ev){
             this.onDrop(ev.currentTarget);
         }, this)).prop('accept','image/*');
 
@@ -34,7 +33,7 @@ SirTrevor.Blocks.ImageExtended = SirTrevor.Blocks.Image.extend({
 
     onCoverClicked: function(ev){
         ev.preventDefault();
-        this.isCover = true;
+        this.isCover = !this.isCover;
         this.mediator.trigger('block:removeCover', this.blockStorage.type, this.blockID);
     },
 

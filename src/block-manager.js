@@ -224,7 +224,14 @@ Object.assign(BlockManager.prototype, require('./function-bind'), require('./med
         block.$set_cover_ui.html( i18n.t('blocks:image:set_cover') );
       }
       else {
-        block.$set_cover_ui.html( i18n.t('blocks:image:cover') );
+        var label = '';
+        if (block.isCover){
+          label = i18n.t('blocks:image:cover');
+        }
+        else {
+          label = i18n.t('blocks:image:set_cover');
+        }
+        block.$set_cover_ui.html(label);
       }
       block.$coverInput.val(block.isCover);
     });
