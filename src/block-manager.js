@@ -242,6 +242,7 @@ Object.assign(BlockManager.prototype, require('./function-bind'), require('./med
       for (var i = 1; i < this.blocks.length - 1; i++) {
         if (!this.blocks[i].$el.hasClass('st-block--not-fixed')){
           this.blocks[i-1].$el.addClass('st-block--remove-add');
+          this.blocks[i-1].$el.dropArea().unbind('drop');
         }
       }
     }

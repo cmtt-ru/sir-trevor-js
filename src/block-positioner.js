@@ -36,7 +36,7 @@ Object.assign(BlockPositioner.prototype, require('./function-bind'), require('./
     this.mediator.on("block:countUpdate", this.onBlockCountChange);
   },
 
-  onBlockCountChange: function(new_count, fixed_count) {
+  onBlockCountChange: function(new_count, fixed_count) { // is called after all initial blocks rendered
     if (new_count !== this.total_blocks) {
       this.total_blocks = new_count;
       if (fixed_count !== this.fixed_blocks) {
