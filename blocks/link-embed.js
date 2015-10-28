@@ -13,6 +13,7 @@ SirTrevor.Blocks.LinkEmbed =  (function(){
         drop_options: { re_render_on_reorder: true },
         lastURL: null,
         lastEmbed: null,
+        toolbarEnabled: false,
 
         fetchUrl: function(url) {
             return '/helper/ogtags?url=' + url;
