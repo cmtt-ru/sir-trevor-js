@@ -96,7 +96,7 @@ Object.assign(BlockManager.prototype, require('./function-bind'), require('./med
   },
 
   triggerBlockCountUpdate: function() {
-    this.mediator.trigger('block:countUpdate', this.blocks.length, this.options.fixedBlocks.length);
+    this.mediator.trigger('block:countUpdate', this.blocks.length);
   },
 
   canCreateBlock: function(type) {
@@ -238,14 +238,25 @@ Object.assign(BlockManager.prototype, require('./function-bind'), require('./med
   },
 
   _removeAddBtns: function() {
-    if (this.blocks.length > 1) {
-      for (var i = 1; i < this.blocks.length - 1; i++) {
+    var fixedBlocks = this._countFixedBlocks();
+    if (fixedBlocks > 1) {
+      for (var i = 1; i < this.blocks.length; i++) {
         if (!this.blocks[i].$el.hasClass('st-block--not-fixed')){
           this.blocks[i-1].$el.addClass('st-block--remove-add');
           this.blocks[i-1].$el.dropArea().unbind('drop');
         }
       }
     }
+  },
+
+  _countFixedBlocks: function () {
+    var total = 0;
+    this.blocks.forEach(function(el){
+      if (!el.movable) {
+        total++;
+      }
+    });
+    return total;
   },
 
   _showBlockControlsOnBottom: function() {

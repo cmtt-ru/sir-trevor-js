@@ -31,7 +31,7 @@ Object.assign(Editor.prototype, require('./function-bind'), require('./events'),
 
   bound: ['onFormSubmit', 'hideAllTheThings', 'changeBlockPosition',
     'removeBlockDragOver', 'renderBlock', 'resetBlockControls',
-    'blockLimitReached'],
+    'blockLimitReached', '_removeFirstAdd'],
 
   events: {
     'block:reorder:dragend': 'removeBlockDragOver',
@@ -85,12 +85,13 @@ Object.assign(Editor.prototype, require('./function-bind'), require('./events'),
     this.mediator.on('block-controls:reset', this.resetBlockControls);
     this.mediator.on('block:limitReached', this.blockLimitReached);
     this.mediator.on('block:render', this.renderBlock);
+    this.mediator.on('block:removeFirstAdd', this._removeFirstAdd);
 
     this.dataStore = "Please use store.retrieve();";
 
     this._setEvents();
 
-    if (!this.options.fixedBlocks) { this.$wrapper.prepend(this.fl_block_controls.render().$el); }
+    this.$wrapper.prepend(this.fl_block_controls.render().$el);
     this.$outer.append(this.block_controls.render().$el);
 
     $(window).bind('click', this.hideAllTheThings);
@@ -283,6 +284,10 @@ Object.assign(Editor.prototype, require('./function-bind'), require('./events'),
     this.$wrapper = this.$outer.find('.st-blocks');
 
     return true;
+  },
+
+  _removeFirstAdd: function () {
+    this.$wrapper.find('.st-block-controls__top').remove();
   }
 
 });

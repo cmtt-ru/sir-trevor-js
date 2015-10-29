@@ -365,24 +365,28 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
 
       this._withUIComponent(new BlockReorder(this.$el, this.mediator));
     }
+    else {
+      this.mediator.trigger('block:removeFirstAdd');
+      this.mediator.trigger('block:removeAddBtns');
 
-    this.$el.dropArea() // terrible function from block-reorder to handle drop areas
-        .bind('drop', $.proxy(function(ev) {
-          ev.preventDefault();
+      this.$el.dropArea() // terrible function from block-reorder to handle drop areas
+          .bind('drop', $.proxy(function(ev) {
+            ev.preventDefault();
 
-          var dropped_on = this.$el,
-              item_id = ev.originalEvent.dataTransfer.getData("text/plain"),
-              block = $('#' + item_id);
+            var dropped_on = this.$el,
+                item_id = ev.originalEvent.dataTransfer.getData("text/plain"),
+                block = $('#' + item_id);
 
-          if (!_.isUndefined(item_id) && !_.isEmpty(block) &&
-              dropped_on.attr('id') !== item_id &&
-              dropped_on.attr('data-instance') === block.attr('data-instance')
-          ) {
-            dropped_on.after(block);
-          }
-          this.mediator.trigger("block:rerender", item_id);
-          EventBus.trigger("block:reorder:dropped", item_id);
-        }, this));
+            if (!_.isUndefined(item_id) && !_.isEmpty(block) &&
+                dropped_on.attr('id') !== item_id &&
+                dropped_on.attr('data-instance') === block.attr('data-instance')
+            ) {
+              dropped_on.after(block);
+            }
+            this.mediator.trigger("block:rerender", item_id);
+            EventBus.trigger("block:reorder:dropped", item_id);
+          }, this));
+    }
 
     if (this.deletable) {
       this._withUIComponent(new BlockDeletion(), '.st-block-ui-btn--delete', this.onDeleteClick.bind(this));
