@@ -92,19 +92,8 @@ Object.assign(BlockControls.prototype, require('./function-bind'), require('./me
       this.currentContainer = undefined;
     }
   },
-
-  deactivateBlockControl: function(type) {
-    console.log('not available', utils.toSlug(type), this);
-    this.$el.find('a[data-type="' + utils.toSlug(type) + '"]').addClass('st-block-control--disabled');
-  },
-
-  reactivateBlockControl: function(type) {
-    console.log('available', utils.toSlug(type), this);
-    this.$el.find('a[data-type="' + utils.toSlug(type) + '"]').removeClass('st-block-control--disabled');
-  },
-
+  
   setLimitCounters: function(groupLimit, typeLimit) {
-    console.log('got data');
     for(var block_type in this.available_types) {
       if (Blocks.hasOwnProperty(block_type)) {
         var block_type_c = utils.classify(block_type);
