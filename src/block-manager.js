@@ -43,7 +43,6 @@ Object.assign(BlockManager.prototype, require('./function-bind'), require('./med
   initialize: function() {
     this.mediator.on('block:removeCover', this._removeCover.bind(this));
     this.mediator.on('block:removeAddBtns', this._removeAddBtns.bind(this));
-    this.mediator.on('block:showBlockControlsOnBottom', this._showBlockControlsOnBottom.bind(this));
     this.mediator.on('block:getLimitCounters', this._sendControlLimits.bind(this));
   },
 
@@ -62,6 +61,7 @@ Object.assign(BlockManager.prototype, require('./function-bind'), require('./med
 
     this.triggerBlockCountUpdate();
     this.mediator.trigger('block:limitReached', this.blockLimitReached());
+    this.mediator.trigger('block:showBlockControlsOnBottom');
 
     this._updateControlLimits(type,false);
 
@@ -257,12 +257,6 @@ Object.assign(BlockManager.prototype, require('./function-bind'), require('./med
       }
     });
     return total;
-  },
-
-  _showBlockControlsOnBottom: function() {
-    if (this.blocks.length > 0) {
-      this.mediator.trigger('block-controls:render', this.blocks[this.blocks.length - 1].$el);
-    }
   },
 
   _isBlockGroupLimitReached: function(t) {

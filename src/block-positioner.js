@@ -36,14 +36,11 @@ Object.assign(BlockPositioner.prototype, require('./function-bind'), require('./
     this.mediator.on("block:countUpdate", this.onBlockCountChange);
   },
 
-  onBlockCountChange: function(new_count) { // is called after all initial blocks rendered
+  onBlockCountChange: function(new_count) {
     if (new_count !== this.total_blocks) {
       this.total_blocks = new_count;
-      this.mediator.trigger('block:showBlockControlsOnBottom');
       this.renderPositionList();
     }
-
-
   },
 
   onSelectChange: function() {
@@ -75,7 +72,7 @@ Object.assign(BlockPositioner.prototype, require('./function-bind'), require('./
 
   hide: function(){
     this.$el.removeClass(this.visibleClass);
-  },
+  }
 
 });
 

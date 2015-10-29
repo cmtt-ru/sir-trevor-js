@@ -86,6 +86,7 @@ Object.assign(Editor.prototype, require('./function-bind'), require('./events'),
     this.mediator.on('block:limitReached', this.blockLimitReached);
     this.mediator.on('block:render', this.renderBlock);
     this.mediator.on('block:removeFirstAdd', this._removeFirstAdd);
+    this.mediator.on('block:showBlockControlsOnBottom', this._showBlockControlsOnBottom.bind(this));
 
     this.dataStore = "Please use store.retrieve();";
 
@@ -288,8 +289,12 @@ Object.assign(Editor.prototype, require('./function-bind'), require('./events'),
 
   _removeFirstAdd: function () {
     this.$wrapper.find('.st-block-controls__top').remove();
-  }
+  },
 
+
+  _showBlockControlsOnBottom: function() {
+    this.mediator.trigger('block-controls:render', this.$wrapper.find('.st-block').last());
+  },
 });
 
 module.exports = Editor;

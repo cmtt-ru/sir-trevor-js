@@ -20,7 +20,7 @@
 <body>
   <form>
     <div class="errors"></div>
-    <textarea class="sir-trevor" name="content">{"data":[{"type":"text","data":{"text":"Hello, I'm **Sir Trevor**.\nCreate some new blocks and see _what I can do_.\n"}}]}</textarea>
+    <textarea class="sir-trevor" name="content">{"data":[{"type":"link_embed"},{"type":"text_fixed","data":{"text":"Hello, I'm **Sir Trevor**.\nCreate some new blocks and see _what I can do_.\n"}}]}</textarea>
     <input type="submit" value="Submit">
   </form>
 
@@ -46,12 +46,6 @@
       SirTrevor.config.scribeDebug = true;
       SirTrevor.config.language = "en";
 
-      SirTrevor.setBlockOptions("Text", {
-        onBlockRender: function() {
-          console.log("Text block rendered");
-        }
-      });
-
       SirTrevor.setBlockOptions("TextLimited", {
         text_limit: 350
       });
@@ -76,14 +70,12 @@
         ],
         defaultType: "Text",
         required: ["TextFixed", "LinkEmbed"],
-        fixedBlocks: ["link_embed", "text_fixed"],
         blockGroupLimit: {
             types: ["Video", "Tweet"],
             limit: 2
         },
           blockTypeLimits: {
-              "List": 3,
-
+              "List": 3
           }
       });
 

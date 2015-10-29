@@ -25,6 +25,7 @@ module.exports = {
         e.preventDefault();
         this.mediator.trigger('block:remove', this.blockID);
         this.remove();
+        this.mediator.trigger('block:showBlockControlsOnBottom');
       };
 
       var onDeleteDeny = function(e) {
