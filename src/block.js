@@ -37,12 +37,22 @@ var delete_template = [
 
 var options_basic_template = [
   "<div class='st-block__ui-options-controls'>",
+  "<% for (var i = 0; i < data.length; i++) { %>",
+  "<div class='st-block__ui-options-controls-group'>",
   "<label class='st-block__options-label'>",
   //"<%= i18n.t('general:options') %>",
-  "Options",
+  "<%= data[i].name %>",
   "</label>",
-  "__options__",
+  "<% for (var j = 0; j < data[i].options.length; j++) { %>",
+  "<% data[i].options[j].icon ? iconClass = ' st-icon' : iconClass = '' %>",
+  "<a class='st-block-ui-btn st-block-ui-btn--confirm-options <%= iconClass %>' data-icon='<%= data[i].options[j].icon %>' data-value='<%= data[i].options[j].value %>'><%= data[i].options[j].text %></a>",
+  "<% } %>",
+  "</div>",
+  "<% } %>",
+  "<div class='st-block__ui-options-controls-group'>",
+  "<label class='st-block__options-label'>&nbsp;</label>",
   "<a class='st-block-ui-btn st-block-ui-btn--deny-options st-icon' data-icon='close'></a>",
+  "</div>",
   "</div>"
 ].join("\n");
 
@@ -403,20 +413,18 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
   },
 
   _initOptionsUI: function() {
-    var optionsUI = "";
-    var defaultOption = false;
-    this.blockOptions.forEach(function(option){
-      if (option.default) { defaultOption = option.value; }
-      var iconClass = '';
-      if (option.icon) { iconClass = ' st-icon'; }
-      if (_.isUndefined(option.text)) { option.text = ''; }
-      optionsUI += "<a class='st-block-ui-btn st-block-ui-btn--confirm-options'" + iconClass + " data-icon='" + option.icon + "' data-value='" + option.value + "'>" + option.text + "</a>";
-    });
-    this.options_template = options_basic_template.replace(/__options__/,optionsUI);
-
-    var optionInput = $("<input name='option' type='hidden' value='" + defaultOption + "'>");
-    this.$el.append(optionInput);
-    this.$option = optionInput;
+    this.$option = [];
+    this.blockOptions.forEach($.proxy(function(option_group){
+      var defaultOption = false;
+      option_group.options.forEach(function(option){
+        if (option.default) { defaultOption = option.value; }
+        if (_.isUndefined(option.text)) { option.text = ''; }
+      });
+      var optionInput = $("<input name='option' type='hidden' value='" + defaultOption + "'>");
+      this.$el.append(optionInput);
+      this.$option.push(optionInput);
+    }, this));
+    this.options_template = _.template(options_basic_template)({data: this.blockOptions});
   },
 
   _initFormatting: function() {

@@ -81,7 +81,7 @@
 .st-block--delete-active, .st-block--options-active {
   .st-block__ui-delete-controls, .st-block__ui-options-controls {
     opacity: 1;
-    z-index: 2;
+    z-index: 52;
   }
 }
 
@@ -109,4 +109,8 @@
 
 .st-block-ui-image-cover {
   line-height: normal;
+}
+
+.st-block__ui-options-controls-group {
+  float: left;
 }

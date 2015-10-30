@@ -7,6 +7,8 @@ SirTrevor.Blocks.ImageExtended = SirTrevor.Blocks.Image.extend({
 
     icon_name: 'image',
 
+    blockOptions: [{name:'Background',options:[{text: 'dr', value: 'dark', default: true},{text: 'lt', value: 'light'}]},{name:'Border',options:[{text:'yes',value:'yes',default: true},{text:'no',value:'no'}]}],
+
 
     loadData: function(data){
         // Create our image tag
