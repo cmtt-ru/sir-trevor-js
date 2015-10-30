@@ -45,7 +45,7 @@ var options_basic_template = [
   "</label>",
   "<% for (var j = 0; j < data[i].options.length; j++) { %>",
   "<% data[i].options[j].icon ? iconClass = ' st-icon' : iconClass = '' %>",
-  "<a class='st-block-ui-btn st-block-ui-btn--confirm-options <%= iconClass %>' data-icon='<%= data[i].options[j].icon %>' data-value='<%= data[i].options[j].value %>'><%= data[i].options[j].text %></a>",
+  "<a class='st-block-ui-btn st-block-ui-btn--confirm-options <%= iconClass %>' data-icon='<%= data[i].options[j].icon %>' data-value='<%= data[i].options[j].value %>' data-name='<%= data[i].slug %>'><%= data[i].options[j].text %></a>",
   "<% } %>",
   "</div>",
   "<% } %>",
@@ -283,17 +283,13 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
     var onOptionsConfirm = function(e) {
       e.preventDefault();
       var value = $(e.target).attr('data-value');
+      var inputName = $(e.target).attr('data-name');
 
       // Set value
-      this.$option.val(value);
+      this.$option.filter('[name=' + inputName + ']').val(value);
 
-      // Set classes
-      this.$el.attr(
-          'class',
-          this.$el.attr('class').replace(/\bblock-option-value-\w+\b/g, '')
-      );
-      this.$el.addClass('block-option-value-' + value);
-
+      // Update class
+      this.setOptionClass(inputName, value);
 
       this.$el.removeClass('st-block--options-active');
       this.$ui.show();
@@ -324,6 +320,16 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
         onOptionsDeny.bind(this));
   },
 
+  setOptionClass: function (optionName, value) {
+    var clearClass = new RegExp("\\bblock-option-" + optionName + "-\\w+\\b","g");
+
+    this.$el.attr(
+        'class',
+        this.$el.attr('class').replace(clearClass, '')
+    );
+    this.$el.addClass('block-option-' + optionName + '-' + value);
+  },
+
   beforeLoadingData: function() {
     this.loading();
 
@@ -334,7 +340,18 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
 
     SimpleBlock.fn.beforeLoadingData.call(this);
 
+    this.loadOptions(this._getData());
+
     this.ready();
+  },
+
+  loadOptions: function(data) { // load options from data
+    if (_.isUndefined(this.$option)) { return; }
+    this.$option.filter('input').each($.proxy(function(key, val){
+      var name = $(val).attr('name');
+      $(val).val(data[name]); // set data
+      this.setOptionClass(name, data[name]); // set class
+    }, this));
   },
 
   execTextBlockCommand: function(cmdName) {
@@ -413,16 +430,16 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
   },
 
   _initOptionsUI: function() {
-    this.$option = [];
+    this.$option = $();
     this.blockOptions.forEach($.proxy(function(option_group){
       var defaultOption = false;
       option_group.options.forEach(function(option){
         if (option.default) { defaultOption = option.value; }
         if (_.isUndefined(option.text)) { option.text = ''; }
       });
-      var optionInput = $("<input name='option' type='hidden' value='" + defaultOption + "'>");
-      this.$el.append(optionInput);
-      this.$option.push(optionInput);
+      option_group.slug = utils.toSlug(option_group.name);
+      this.$option = this.$option.add("<input name='" + option_group.slug + "' type='hidden' value='" + defaultOption + "'>");
+      this.$el.append(this.$option);
     }, this));
     this.options_template = _.template(options_basic_template)({data: this.blockOptions});
   },

@@ -212,19 +212,19 @@ ul.st-text-block {
   color: $error-color;
 }
 
-.block-option-value-h3 .st-block__inner {
+.block-option-heading-styles-h3 .st-block__inner {
   h2.st-text-block--heading {
     font-size: 2.0em;
   }
 }
 
-.block-option-value-h4 .st-block__inner {
+.block-option-heading-styles-h4 .st-block__inner {
   h2.st-text-block--heading {
     font-size: 1.8em;
   }
 }
 
-.block-option-value-ol .st-block__inner {
+.block-option-list-types-ol .st-block__inner {
   ul.st-list-block__list {
     list-style: decimal;
   }
