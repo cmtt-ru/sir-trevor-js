@@ -349,8 +349,28 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
     if (_.isUndefined(this.$option)) { return; }
     this.$option.filter('input').each($.proxy(function(key, val){
       var name = $(val).attr('name');
-      $(val).val(data[name]); // set data
-      this.setOptionClass(name, data[name]); // set class
+      if (_.isUndefined(data[name])) {
+        var default_val;
+        this.blockOptions.some(function(option_group){
+          if (option_group.slug == name) {
+            option_group.options.some(function(option){
+              if (option.default) {
+                default_val = option.value;
+                return true;
+              }
+            });
+            return true;
+          }
+        });
+        if (default_val) {
+          $(val).val(default_val); // set data
+          this.setOptionClass(name, default_val); // set class
+        }
+      }
+      else {
+        $(val).val(data[name]); // set data
+        this.setOptionClass(name, data[name]); // set class
+      }
     }, this));
   },
 

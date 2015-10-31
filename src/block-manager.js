@@ -282,7 +282,7 @@ Object.assign(BlockManager.prototype, require('./function-bind'), require('./med
       var limits = this.options.blockGroupLimit;
       if (limits.types.indexOf(type) > -1) {
         limits.types.forEach(function(t){
-          if (t!=type){
+          if (t !== type){
             this.mediator.trigger('block-control:updateLimitCounter', t, increase);
           }
         }, this);
