@@ -96,13 +96,13 @@ Object.assign(BlockControls.prototype, require('./function-bind'), require('./me
   setLimitCounters: function(groupLimit, typeLimit) {
     for(var block_type in this.available_types) {
       if (Blocks.hasOwnProperty(block_type)) {
-        var block_type_c = utils.classify(block_type);
-        if (!_.isUndefined(typeLimit[block_type_c])) { // Set limits data for type limits
-          this.$el.find('a[data-type="' + utils.toSlug(block_type) + '"]').attr('data-limit',typeLimit[block_type_c]);
+        var block_type_c = utils.toType(block_type);
+        if (!_.isUndefined(typeLimit[block_type])) { // Set limits data for type limits
+          this.$el.find('a[data-type="' + block_type_c + '"]').attr('data-limit',typeLimit[block_type]);
         }
 
         if (!_.isUndefined(groupLimit) && groupLimit.types.indexOf(block_type_c) > -1) {
-          this.$el.find('a[data-type="' + utils.toSlug(block_type) + '"]').attr('data-limit',groupLimit.limit);
+          this.$el.find('a[data-type="' + block_type_c + '"]').attr('data-limit',groupLimit.limit);
         }
 
       }
@@ -110,7 +110,7 @@ Object.assign(BlockControls.prototype, require('./function-bind'), require('./me
   },
 
   updateLimitCounter: function(type, increase) {
-    var block_type_control = this.$el.find('a[data-type="' + utils.toSlug(type) + '"]');
+    var block_type_control = this.$el.find('a[data-type="' + utils.toType(type) + '"]');
     var counter = block_type_control.attr('data-limit');
     if (counter) {
       if (increase) {

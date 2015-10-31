@@ -179,7 +179,7 @@ Object.assign(BlockManager.prototype, require('./function-bind'), require('./med
 
   canAddBlockType: function(type) {
     var block_type_limit = this._getBlockTypeLimit(type);
-    return !(block_type_limit !== 0 && this._getBlockTypeCount(type) >= block_type_limit);
+    return !(block_type_limit !== null && this._getBlockTypeCount(type) >= block_type_limit);
   },
 
   _setBlocksTypes: function() {
@@ -213,8 +213,8 @@ Object.assign(BlockManager.prototype, require('./function-bind'), require('./med
   },
 
   _getBlockTypeLimit: function(t) {
-    if (!this.isBlockTypeAvailable(t)) { return 0; }
-    return parseInt((_.isUndefined(this.options.blockTypeLimits[t])) ? 0 : this.options.blockTypeLimits[t], 10);
+    if (!this.isBlockTypeAvailable(t)) { return null; }
+    return parseInt((_.isUndefined(this.options.blockTypeLimits[t])) ? null : this.options.blockTypeLimits[t], 10);
   },
 
   _removeCover: function(t, id) {

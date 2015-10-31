@@ -352,7 +352,7 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
       if (_.isUndefined(data[name])) {
         var default_val;
         this.blockOptions.some(function(option_group){
-          if (option_group.slug == name) {
+          if (option_group.slug === name) {
             option_group.options.some(function(option){
               if (option.default) {
                 default_val = option.value;
