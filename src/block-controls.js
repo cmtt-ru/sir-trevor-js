@@ -101,7 +101,7 @@ Object.assign(BlockControls.prototype, require('./function-bind'), require('./me
           this.$el.find('a[data-type="' + block_type_c + '"]').attr('data-limit',typeLimit[block_type]);
         }
 
-        if (!_.isUndefined(groupLimit) && groupLimit.types.indexOf(block_type_c) > -1) {
+        if (!_.isUndefined(groupLimit) && groupLimit.types.indexOf(block_type) > -1) {
           this.$el.find('a[data-type="' + block_type_c + '"]').attr('data-limit',groupLimit.limit);
         }
 
