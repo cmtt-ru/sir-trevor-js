@@ -299,7 +299,6 @@ Object.assign(Editor.prototype, require('./function-bind'), require('./events'),
     else {
       this.mediator.trigger('block-controls:render', this.$wrapper.find('.st-block-controls__top'));
     }
-
   },
 });
 

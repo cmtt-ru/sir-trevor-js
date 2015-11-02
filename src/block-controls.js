@@ -68,7 +68,7 @@ Object.assign(BlockControls.prototype, require('./function-bind'), require('./me
     this.$el.removeClass('st-block-controls--active');
 
     EventBus.trigger('block:controls:hidden');
-    //if (!notMoveToEnd) { this.mediator.trigger('block:showBlockControlsOnBottom'); }
+    if (!notMoveToEnd) { this.mediator.trigger('block:showBlockControlsOnBottom'); }
   },
 
   handleControlButtonClick: function(e) {
