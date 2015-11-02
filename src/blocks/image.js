@@ -13,6 +13,8 @@ module.exports = Block.extend({
 
   icon_name: 'image',
 
+  notEmptyUpload: false,
+
   loadData: function(data){
     // Create our image tag
     this.$editor.html($('<img>', { src: data.file.url }));
@@ -40,6 +42,7 @@ module.exports = Block.extend({
       this.uploader(
         file,
         function(data) {
+          this.notEmptyUpload = true;
           this.setData(data);
           this.ready();
         },
@@ -49,5 +52,17 @@ module.exports = Block.extend({
         }
       );
     }
-  }
+  },
+
+  validations: ['fileUploadValidation'],
+
+  fileUploadValidation: function() {
+    if (!this.notEmptyUpload) {
+      var field = this.$('[type="file"]');
+      this.setError(field, i18n.t("errors:block_empty",
+          { name: i18n.t("blocks:image:title") }));
+      return false;
+    }
+    return true;
+  },
 });
