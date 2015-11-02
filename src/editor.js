@@ -293,7 +293,13 @@ Object.assign(Editor.prototype, require('./function-bind'), require('./events'),
 
 
   _showBlockControlsOnBottom: function() {
-    this.mediator.trigger('block-controls:render', this.$wrapper.find('.st-block').last());
+    if (this.block_manager.blocks.length > 0){
+      this.mediator.trigger('block-controls:render', this.$wrapper.find('.st-block').last());
+    }
+    else {
+      this.mediator.trigger('block-controls:render', this.$wrapper.find('.st-block-controls__top'));
+    }
+
   },
 });
 

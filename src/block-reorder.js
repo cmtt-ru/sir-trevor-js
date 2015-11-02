@@ -45,7 +45,7 @@ Object.assign(BlockReorder.prototype, require('./function-bind'), require('./ren
   },
 
   onMouseDown: function() {
-    this.mediator.trigger("block-controls:hide");
+    this.mediator.trigger("block-controls:hide", true);
     EventBus.trigger("block:reorder:down");
   },
 
@@ -64,6 +64,7 @@ Object.assign(BlockReorder.prototype, require('./function-bind'), require('./ren
      }
      this.mediator.trigger("block:rerender", item_id);
      EventBus.trigger("block:reorder:dropped", item_id);
+    this.mediator.trigger('block:showBlockControlsOnBottom');
   },
 
   onDragStart: function(ev) {
@@ -79,6 +80,7 @@ Object.assign(BlockReorder.prototype, require('./function-bind'), require('./ren
   onDragEnd: function(ev) {
     EventBus.trigger("block:reorder:dragend");
     this.$block.removeClass('st-block--dragging');
+    this.mediator.trigger('block:showBlockControlsOnBottom');
   },
 
   render: function() {
