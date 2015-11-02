@@ -148,7 +148,7 @@ Object.assign(Editor.prototype, require('./function-bind'), require('./events'),
 
   resetBlockControls: function() {
     this.block_controls.renderInContainer(this.$wrapper);
-    this.block_controls.hide();
+    this.block_controls.hide(true);
   },
 
   blockLimitReached: function(toggle) {
