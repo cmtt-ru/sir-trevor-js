@@ -38,7 +38,7 @@ var delete_template = [
 var options_basic_template = [
   "<div class='st-block__ui-options-controls'>",
   "<% for (var i = 0; i < data.length; i++) { %>",
-  "<div class='st-block__ui-options-controls-group'>",
+  "<div class='st-block__ui-options-controls-group' data-option='<%= data[i].slug %>'>",
   "<label class='st-block__options-label'>",
   //"<%= i18n.t('general:options') %>",
   "<%= data[i].name %>",
@@ -309,6 +309,14 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
     }
 
     this.$inner.append(_.template(this.options_template));
+
+    // set active btns
+    this.$option.filter('input').each($.proxy(function(key, input){
+      var group = $(input).attr('name');
+      var value = $(input).val();
+      this.$inner.find('[data-option="' + group +'"] [data-value="' + value + '"]').addClass('st-block-ui-btn--selected');
+    }, this));
+    
     this.$ui.hide();
     this.$el.addClass('st-block--options-active');
 

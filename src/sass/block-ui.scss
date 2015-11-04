@@ -114,3 +114,8 @@
 .st-block__ui-options-controls-group {
   float: left;
 }
+
+.st-block__ui-options-controls .st-block-ui-btn.st-block-ui-btn--selected {
+  color: #fff;
+  background: $accent-color;
+}
