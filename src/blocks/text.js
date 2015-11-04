@@ -15,6 +15,14 @@ module.exports = Block.extend({
 
   editorHTML: '<div class="st-required st-text-block" contenteditable="true"></div>',
 
+  scribeOptions: {
+    allowBlockElements: true,
+    tags: {
+      p: true,
+      br: false
+    }
+  },
+
   icon_name: 'text',
 
   loadData: function(data){
