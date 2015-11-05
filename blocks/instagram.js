@@ -4,6 +4,7 @@ SirTrevor.Blocks.Instagram = (function(){
 
         type: "instagram",
         title: function() { return i18n.t('blocks:instagram:title'); },
+        title_drop: function() { return i18n.t('blocks:instagram:drop'); },
         pastable: true,
         droppable: true,
         fetchable: true,
@@ -82,7 +83,7 @@ SirTrevor.Blocks.Instagram = (function(){
             if (!this.contentFetched) {
                 var field = this.$('[type="text"]');
                 this.setError(field, i18n.t("errors:block_empty",
-                    { name: i18n.t("blocks:image:title") }));
+                    { name: i18n.t("blocks:instagram:title") }));
                 return false;
             }
             return true;

@@ -20,6 +20,7 @@ module.exports = Block.extend({
 
   type: 'video',
   title: function() { return i18n.t('blocks:video:title'); },
+  title_drop: function() { return i18n.t('blocks:video:drop'); },
 
   droppable: true,
   pastable: true,

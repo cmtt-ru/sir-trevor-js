@@ -3,13 +3,13 @@
 var drop_options = {
   html: ['<div class="st-block__dropzone">',
     '<span class="st-icon"><%= _.result(block, "icon_name") %></span>',
-    '<p><%= i18n.t("general:drop", { block: "<span>" + _.result(block, "title") + "</span>" }) %>',
+    '<p><%= i18n.t("general:drop", { block: "<span>" + _.result(block, "title_drop") + "</span>" }) %>',
     '</p></div>'].join('\n'),
     re_render_on_reorder: false
 };
 
 var paste_options = {
-  html: ['<input type="text" placeholder="<%= i18n.t("general:paste") %>"',
+  html: ['<input type="text" placeholder="<%= i18n.t("general:paste") %>" onblur="this.placeholder = \'<%= i18n.t("general:paste") %>\'" onfocus="this.placeholder = \'\'"',
     ' class="st-block__paste-input st-paste-block">'].join('')
 };
 

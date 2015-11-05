@@ -8,7 +8,7 @@ var bestNameFromField = function(field) {
   var msg = field.attr("data-st-name") || field.attr("name");
 
   if (!msg) {
-    msg = 'Field';
+    msg = '';
   }
 
   return utils.capitalize(msg);

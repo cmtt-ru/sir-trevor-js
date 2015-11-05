@@ -29,6 +29,7 @@ module.exports = Block.extend({
   contentFetched: false,
 
   title: function(){ return i18n.t('blocks:tweet:title'); },
+  title_drop: function(){ return i18n.t('blocks:tweet:drop'); },
 
   fetchUrl: function(tweetID) {
     return "/tweets/?tweet_id=" + tweetID;
@@ -115,7 +116,7 @@ module.exports = Block.extend({
     if (!this.contentFetched) {
       var field = this.$('[type="text"]');
       this.setError(field, i18n.t("errors:block_empty",
-          { name: i18n.t("blocks:image:title") }));
+          { name: i18n.t("blocks:tweet:title") }));
       return false;
     }
     return true;

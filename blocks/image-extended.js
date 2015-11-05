@@ -1,6 +1,7 @@
 SirTrevor.Blocks.ImageExtended = SirTrevor.Blocks.Image.extend({
     type: "image_extended",
     title: function() { return i18n.t('blocks:image:title'); },
+    title_drop: function() { return i18n.t('blocks:image:drop'); },
 
     droppable: true,
     uploadable: true,

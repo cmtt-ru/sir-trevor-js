@@ -7,13 +7,15 @@
 var Block = require('../block');
 var stToHTML = require('../to-html');
 
+var _ = require('../lodash');
+
 module.exports = Block.extend({
 
   type: "text",
 
   title: function() { return i18n.t('blocks:text:title'); },
 
-  editorHTML: '<div class="st-required st-text-block" contenteditable="true"></div>',
+  editorHTML: '<div class="st-required st-text-block" contenteditable="true" data-st-name="<%= title %>"></div>',
 
   scribeOptions: {
     allowBlockElements: true,
@@ -32,4 +34,8 @@ module.exports = Block.extend({
       this.setTextBlockHTML(data.text);
     }
   },
+
+  beforeBlockRender: function() {
+    this.editorHTML = _.template(this.editorHTML, {title: i18n.t('blocks:text:title')});
+  }
 });
