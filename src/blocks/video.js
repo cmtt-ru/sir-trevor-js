@@ -26,6 +26,7 @@ module.exports = Block.extend({
   pastable: true,
 
   icon_name: 'video',
+  contentFetched: false,
 
   loadData: function(data){
     if (!this.providers.hasOwnProperty(data.source)) { return; }
@@ -45,6 +46,8 @@ module.exports = Block.extend({
         remote_id: data.remote_id,
         width: this.$editor.width() // for videos like vine
       }));
+
+    this.contentFetched = true;
   },
 
   onContentPasted: function(event){
@@ -61,20 +64,48 @@ module.exports = Block.extend({
     };
   },
 
-  handleDropPaste: function(url){
-    if (!utils.isURI(url)) { return; }
+  isValidVideoUrl: function(url) {
+    if (!utils.isURI(url)) { return false; }
+    var found = false;
 
-    for(var key in this.providers) { 
+    for(var key in this.providers) {
       if (!this.providers.hasOwnProperty(key)) { continue; }
-      this.setAndLoadData(
-        this.matchVideoProvider(this.providers[key], key, url)
-      );
+      var provider = this.providers[key];
+      var match = provider.regex.exec(url);
+      if(match !== null && !_.isUndefined(match[1])) { found = true; }
+    }
+    return found;
+  },
+
+  handleDropPaste: function(url){
+    if (!this.isValidVideoUrl(url)) { return; }
+
+    for(var key in this.providers) {
+      if (!this.providers.hasOwnProperty(key)) { continue; }
+      var data = this.matchVideoProvider(this.providers[key], key, url);
+      this.setAndLoadData(data);
+      if (data.remote_id) {
+        this.contentFetched = true;
+      }
     }
   },
 
   onDrop: function(transferData){
     var url = transferData.getData('text/plain');
     this.handleDropPaste(url);
-  }
+  },
+
+  validations: ['videoValidation'],
+
+  videoValidation: function() {
+    if (!this.contentFetched) {
+      var field = this.$('[type="text"]');
+      this.setError(field, i18n.t("errors:block_empty",
+          { name: i18n.t("blocks:video:title") }));
+      return false;
+    }
+    return true;
+  },
+
 });
 
