@@ -143,7 +143,6 @@ Object.assign(BlockManager.prototype, require('./function-bind'), require('./med
         if (blocks.length > 0) { return false; }
 
         var block_name = i18n.t("blocks:"+ utils.toType(type)+":title");
-        console.log("blocks:"+ utils.toType(type)+":title");
 
         this.mediator.trigger('errors:add', {
           text: i18n.t("errors:required_type_empty", {type: block_name})
