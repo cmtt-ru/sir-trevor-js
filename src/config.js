@@ -10,7 +10,7 @@ var drop_options = {
 
 var paste_options = {
   html: ['<input type="text" placeholder="<%= i18n.t("general:paste") %>"',
-    ' class="st-block__paste-input st-paste-block st-required">'].join('')
+    ' class="st-block__paste-input st-paste-block">'].join('')
 };
 
 var upload_options = {

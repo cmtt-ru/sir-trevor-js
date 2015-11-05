@@ -26,6 +26,8 @@ module.exports = Block.extend({
     re_render_on_reorder: true
   },
 
+  contentFetched: false,
+
   title: function(){ return i18n.t('blocks:tweet:title'); },
 
   fetchUrl: function(tweetID) {
@@ -94,6 +96,7 @@ module.exports = Block.extend({
 
     this.setAndLoadData(obj);
     this.ready();
+    this.contentFetched = true;
   },
 
   onTweetFail: function() {
@@ -104,5 +107,17 @@ module.exports = Block.extend({
   onDrop: function(transferData){
     var url = transferData.getData('text/plain');
     this.handleTwitterDropPaste(url);
-  }
+  },
+
+  validations: ['tweetValidation'],
+
+  tweetValidation: function() {
+    if (!this.contentFetched) {
+      var field = this.$('[type="text"]');
+      this.setError(field, i18n.t("errors:block_empty",
+          { name: i18n.t("blocks:image:title") }));
+      return false;
+    }
+    return true;
+  },
 });

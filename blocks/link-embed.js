@@ -1,4 +1,4 @@
-SirTrevor.Blocks.LinkEmbed =  (function(){
+SirTrevor.Blocks.LinkEmbed = (function(){
 
     return SirTrevor.Block.extend({
 
@@ -7,16 +7,12 @@ SirTrevor.Blocks.LinkEmbed =  (function(){
         pastable: true,
         droppable: true,
         fetchable: true,
-        deletable: false,
-        movable: false,
         icon_name: 'link',
         drop_options: { re_render_on_reorder: true },
-        lastURL: null,
-        lastEmbed: null,
-        toolbarEnabled: false,
+        contentFetched: false,
 
         fetchUrl: function(url) {
-            return '/helper/ogtags?url=' + url;
+            return '/club/linkInfo?url=' + url;
         },
 
         loadData: function(data){
@@ -24,6 +20,9 @@ SirTrevor.Blocks.LinkEmbed =  (function(){
             this.$editor.append($('<b>').html(data.title));
             this.$editor.append($('<u>').html(data.url));
             this.$editor.append($('<p>').html(data.description));
+            if (data.url) {
+                this.contentFetched = true;
+            }
         },
 
         onContentPasted: function(event){
@@ -40,29 +39,35 @@ SirTrevor.Blocks.LinkEmbed =  (function(){
                 dataType: "json"
             };
 
-            lastEmbed = null;
-            lastURL = url;
-
             this.fetch(ajaxOptions, this.onSuccess, this.onFail);
         },
 
         onSuccess: function(data) {
-            lastEmbed = data.html;
             this.setAndLoadData(data);
             this.ready();
-            lastURL = null;
+            this.contentFetched = true;
         },
 
         onFail: function() {
-            this.addMessage(i18n.t("blocks:instagram:fetch_error"));
+            this.addMessage(i18n.t("blocks:link_embed:fetch_error"));
             this.ready();
         },
 
         onDrop: function(transferData){
             var url = transferData.getData('text/plain');
             this.handleDropPaste(url);
-        }
+        },
 
+        validations: ['linkValidation'],
+
+        linkValidation: function() {
+            if (!this.contentFetched) {
+                var field = this.$('[type="text"]');
+                this.setError(field, i18n.t("errors:block_empty",
+                    { name: i18n.t("blocks:image:title") }));
+                return false;
+            }
+            return true;
+        },
     });
-
 })();

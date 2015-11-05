@@ -18,6 +18,9 @@ module.exports = Block.extend({
   loadData: function(data){
     // Create our image tag
     this.$editor.html($('<img>', { src: data.file.url }));
+    if (data.file.url) {
+      this.notEmptyUpload = true;
+    }
   },
 
   onBlockRender: function(){
@@ -42,9 +45,9 @@ module.exports = Block.extend({
       this.uploader(
         file,
         function(data) {
-          this.notEmptyUpload = true;
           this.setData(data);
           this.ready();
+          this.notEmptyUpload = true;
         },
         function(error) {
           this.addMessage(i18n.t('blocks:image:upload_error'));

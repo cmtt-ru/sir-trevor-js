@@ -10,9 +10,15 @@ SirTrevor.Blocks.ImageExtended = SirTrevor.Blocks.Image.extend({
     blockOptions: [{name:'Background',options:[{text: 'dr', value: 'dark', default: true},{text: 'lt', value: 'light'}]},{name:'Border',options:[{text:'yes',value:'yes',default: true},{text:'no',value:'no'}]}],
 
 
-    loadData: function(data){
+    loadData: function(data, beforeUpload){
         // Create our image tag
-        this.$editor.html($('<img>', { src: function () { if (!data.file[0]) { return data.file.url } else { return data.file[0].url } }})).show();
+        var url;
+        if (!data.file[0]) { url = data.file.url } else { url = data.file[0].url }
+
+        this.$editor.html($('<img>', { src: url })).show();
+        if (!beforeUpload && url) {
+            this.notEmptyUpload = true; // allow validation
+        }
         this.$editor.append($('<input>', {type: 'text', class: 'st-input-string js-caption-input', name: 'caption', placeholder: i18n.t('blocks:image:caption'), style: '', value: data.caption}));
     },
 
@@ -48,13 +54,14 @@ SirTrevor.Blocks.ImageExtended = SirTrevor.Blocks.Image.extend({
             this.loading();
             // Show this image on here
             this.$inputs.hide();
-            this.loadData({file: {url: urlAPI.createObjectURL(file)}});
+            this.loadData({file: {url: urlAPI.createObjectURL(file)}}, true);
 
             this.uploader(
                 file,
                 function(data) {
                     this.setData(data);
                     this.ready();
+                    this.notEmptyUpload = true;
                 },
                 function(error){
                     this.addMessage(i18n.t('blocks:image:upload_error'));
