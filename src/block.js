@@ -12,6 +12,7 @@ var BlockMixins = require('./block_mixins');
 var SimpleBlock = require('./simple-block');
 var BlockReorder = require('./block-reorder');
 var BlockDeletion = require('./block-deletion');
+var BlockClear = require('./block-clear');
 var BlockOptions = require('./block-options');
 var BlockPositioner = require('./block-positioner');
 var EventBus = require('./event-bus');
@@ -26,6 +27,16 @@ Block.prototype = Object.create(SimpleBlock.prototype);
 Block.prototype.constructor = Block;
 
 var delete_template = [
+  "<div class='st-block__ui-delete-controls'>",
+  "<label class='st-block__delete-label'>",
+  "<%= i18n.t('general:delete') %>",
+  "</label>",
+  "<a class='st-block-ui-btn st-block-ui-btn--confirm-delete st-icon' data-icon='tick'></a>",
+  "<a class='st-block-ui-btn st-block-ui-btn--deny-delete st-icon' data-icon='close'></a>",
+  "</div>"
+].join("\n");
+
+var clear_template = [
   "<div class='st-block__ui-delete-controls'>",
   "<label class='st-block__delete-label'>",
   "<%= i18n.t('general:delete') %>",
@@ -277,6 +288,41 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
                        onDeleteDeny.bind(this));
   },
 
+  onClearClick : function(ev) {
+    ev.preventDefault();
+
+    var onClearConfirm = function(e) {
+      e.preventDefault();
+      //this.mediator.trigger('block:render', this);
+      this.$editor.hide();
+      this.$inputs.find('input').val('');
+      this.$inputs.show();
+      $clear_el.remove();
+      this.mediator.trigger('block:showBlockControlsOnBottom');
+    };
+
+    var onClearDeny = function(e) {
+      e.preventDefault();
+      this.$el.removeClass('st-block--delete-active');
+      $clear_el.remove();
+    };
+
+    if (this.isEmpty()) {
+      onClearConfirm.call(this, new Event('click'));
+      return;
+    }
+
+    this.$inner.append(_.template(clear_template));
+    this.$el.addClass('st-block--delete-active');
+
+    var $clear_el = this.$inner.find('.st-block__ui-delete-controls');
+
+    this.$inner.on('click', '.st-block-ui-btn--confirm-delete',
+        onClearConfirm.bind(this))
+        .on('click', '.st-block-ui-btn--deny-delete',
+        onClearDeny.bind(this));
+  },
+
   onOptionsClick: function(ev) {
     ev.preventDefault();
 
@@ -445,6 +491,10 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
 
     if (this.deletable) {
       this._withUIComponent(new BlockDeletion(), '.st-block-ui-btn--delete', this.onDeleteClick.bind(this));
+    }
+
+    if (this.clearable) {
+      this._withUIComponent(new BlockClear(), '.st-block-ui-btn--delete', this.onClearClick.bind(this));
     }
 
     if (this.blockOptions && this.blockOptions.length) {

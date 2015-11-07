@@ -9,5 +9,6 @@ module.exports = {
   Uploadable: require('./uploadable.js'),
   MultiEditable: require('./multi-editable.js'),
   Deletable: require('./deletable.js'),
+  Clearable: require('./clearable.js'),
   Movable: require('./movable.js')
 };
