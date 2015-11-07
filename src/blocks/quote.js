@@ -28,6 +28,14 @@ module.exports = Block.extend({
     return template(this);
   },
 
+  scribeOptions: {
+    allowBlockElements: true,
+    tags: {
+      p: true,
+      br: false
+    }
+  },
+
   loadData: function(data){
     if (this.options.convertFromMarkdown && data.format !== "html") {
       this.setTextBlockHTML(stToHTML(data.text, this.type));
