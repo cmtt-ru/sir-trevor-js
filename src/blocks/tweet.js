@@ -41,6 +41,9 @@ module.exports = Block.extend({
     if (_.isUndefined(data.status_url)) { data.status_url = ''; }
     this.$inner.find('iframe').remove();
     this.$inner.prepend(tweet_template(data));
+    if (data.id) {
+      this.contentFetched = true;
+    }
   },
 
   onContentPasted: function(event){
@@ -97,7 +100,6 @@ module.exports = Block.extend({
 
     this.setAndLoadData(obj);
     this.ready();
-    this.contentFetched = true;
   },
 
   onTweetFail: function() {
