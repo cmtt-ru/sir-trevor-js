@@ -20,7 +20,8 @@ SirTrevor.Locales.ru = {
   },
   blocks: {
     text: {
-      'title': "Текст"
+      'title': "Текст",
+      'placeholder' : "Введите текст"
     },
     list: {
       'title': "Cписок"
@@ -57,12 +58,31 @@ SirTrevor.Locales.ru = {
       'key_missing': "API должен присутствовать"
     },
     heading: {
-      'title': 'Заголовок'
+      'title': 'Заголовок',
+      'placeholder' : "Введите заголовок"
     },
     link_embed: {
       'title': 'Ссылка',
       'fetch_error': "Есть проблемы с загрузкой",
       'drop': "ссылку"
+    }
+  },
+
+  options: {
+    size: {
+      '_label': 'Размер',
+      'big' : 'По центру',
+      'small' : 'Врезка'
+    },
+    background: {
+      '_label': 'Фон',
+      'dark': 'Темный',
+      'light': 'Светлый'
+    },
+    border: {
+      '_label': 'Обводка',
+      'yes': 'Есть',
+      'no': 'Нет'
     }
   }
 };

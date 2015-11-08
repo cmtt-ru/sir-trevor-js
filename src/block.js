@@ -52,11 +52,11 @@ var options_basic_template = [
   "<div class='st-block__ui-options-controls-group' data-option='<%= data[i].slug %>'>",
   "<label class='st-block__options-label'>",
   //"<%= i18n.t('general:options') %>",
-  "<%= data[i].name %>",
+  "<%= data[i].label %>",
   "</label>",
   "<% for (var j = 0; j < data[i].options.length; j++) { %>",
   "<% data[i].options[j].icon ? iconClass = ' st-icon' : iconClass = '' %>",
-  "<a class='st-block-ui-btn st-block-ui-btn--confirm-options <%= iconClass %>' data-icon='<%= data[i].options[j].icon %>' data-value='<%= data[i].options[j].value %>' data-name='<%= data[i].slug %>'><%= data[i].options[j].text %></a>",
+  "<a class='st-block-ui-btn st-block-ui-btn--confirm-options <%= iconClass %>' data-icon='<%= data[i].options[j].icon %>' data-value='<%= data[i].options[j].value %>' data-name='<%= data[i].slug %>'><%= data[i].options[j].label %></a>",
   "<% } %>",
   "</div>",
   "<% } %>",
@@ -297,7 +297,10 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
       this.$editor.hide();
       this.$inputs.find('input').val('');
       this.$inputs.show();
-      $clear_el.remove();
+      if ($clear_el) {
+        $clear_el.remove();
+      }
+      this.$el.removeClass('st-block--delete-active');
       this.mediator.trigger('block:showBlockControlsOnBottom');
     };
 
@@ -375,7 +378,7 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
   },
 
   setOptionClass: function (optionName, value) {
-    var clearClass = new RegExp("\\bblock-option-" + optionName + "-\\w+\\b","g");
+    var clearClass = new RegExp("\\s\\bblock-option-" + optionName + "-\\w+\\b","g");
 
     this.$el.attr(
         'class',
@@ -511,12 +514,17 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
     this.$option = $();
     this.blockOptions.forEach($.proxy(function(option_group){
       var defaultOption = false;
+      option_group.slug = utils.toSlug(option_group.name);
+      option_group.label = i18n.t('options:' + option_group.slug +':_label');
+      if (!option_group.label) { option_group.label = option_group.name }
       option_group.options.forEach(function(option){
         if (option.default) { defaultOption = option.value; }
+        option.label = i18n.t('options:' + option_group.slug +':' + option.value);
+        if (!option.label) { option.label = option.text}
         if (_.isUndefined(option.text)) { option.text = ''; }
       });
-      option_group.slug = utils.toSlug(option_group.name);
       this.$option = this.$option.add("<input name='" + option_group.slug + "' type='hidden' value='" + defaultOption + "'>");
+      this.setOptionClass(option_group.slug, defaultOption);
       this.$el.append(this.$option);
     }, this));
     this.options_template = _.template(options_basic_template)({data: this.blockOptions});

@@ -15,7 +15,7 @@ module.exports = Block.extend({
 
   title: function() { return i18n.t('blocks:text:title'); },
 
-  editorHTML: '<div class="st-required st-text-block" contenteditable="true" data-st-name="<%= title %>"></div>',
+  editorHTML: '<div class="st-required st-text-block" contenteditable="true" data-st-name="<%= title %>" placeholder="<%= placeholder %>"></div>',
 
   scribeOptions: {
     allowBlockElements: true,
@@ -36,6 +36,6 @@ module.exports = Block.extend({
   },
 
   beforeBlockRender: function() {
-    this.editorHTML = _.template(this.editorHTML, {title: i18n.t('blocks:text:title')});
+    this.editorHTML = _.template(this.editorHTML, {title: i18n.t('blocks:text:title'), placeholder: i18n.t('blocks:text:placeholder')});
   }
 });

@@ -15,12 +15,13 @@ module.exports = Block.extend({
 
   title: function(){ return i18n.t('blocks:heading:title'); },
 
-  editorHTML: '<h2 class="st-required st-text-block st-text-block--heading" contenteditable="true" data-st-name="<%= title %>"></h2>',
+  editorHTML: '<h2 class="st-required st-text-block st-text-block--heading" contenteditable="true" data-st-name="<%= title %>" placeholder="<%= placeholder %>"></h2>',
 
   scribeOptions: { 
     allowBlockElements: false,
     tags: {
-      p: false
+      p: false,
+      br: false
     }
   },
 
@@ -35,6 +36,6 @@ module.exports = Block.extend({
   },
 
   beforeBlockRender: function() {
-    this.editorHTML = _.template(this.editorHTML, {title: i18n.t('blocks:heading:title')});
+    this.editorHTML = _.template(this.editorHTML, {title: i18n.t('blocks:heading:title'), placeholder: i18n.t('blocks:heading:placeholder')});
   }
 });
