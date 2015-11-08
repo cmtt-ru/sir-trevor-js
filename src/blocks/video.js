@@ -107,5 +107,14 @@ module.exports = Block.extend({
     return true;
   },
 
+  onBlockRender: function () {
+    var $providers = this.$inputs.append('<div class="st-video-providers"></div>');
+    for (var provider in this.providers) {
+      if (this.providers.hasOwnProperty(provider)){
+        $providers.find('.st-video-providers').append('<div class="st-video-providers_el st-video-providers_el--' + provider + '"></div>');
+      }
+    }
+  }
+
 });
 
