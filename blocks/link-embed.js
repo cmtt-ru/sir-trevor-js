@@ -19,7 +19,7 @@ SirTrevor.Blocks.LinkEmbed = (function(){
         loadData: function(data){
             this.$editor.html($('<div>', { style: "background-image: url(" + data.image + ")" })).show();
             this.$editor.append($('<b>').html(data.title));
-            this.$editor.append($('<u>').html(data.url));
+            this.$editor.append($('<u>').html(data.url.replace(/http:\/\//g, "").replace(/https:\/\//g, "")).prepend($('<i>').addClass("stcustomicon-link")) );
             this.$editor.append($('<p>').html(data.description));
             if (data.url) {
                 this.contentFetched = true;

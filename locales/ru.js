@@ -1,7 +1,7 @@
 SirTrevor.Locales.ru = {
   general: {
     'delete':           'Удалить?',
-    'drop':             'Перетащите __block__ сюда',
+    'drop':             'Перетащите __block__',
     'paste':            'или введите адрес',
     'upload':           'или выберите файл',
     'close':            'Закрыть',

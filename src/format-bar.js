@@ -45,6 +45,7 @@ Object.assign(FormatBar.prototype, require('./function-bind'), require('./mediat
     this.$btns = [];
 
     this.commands.forEach(function(format) {
+      format.availabe = true;
       var btn = $("<button>", {
         'class': 'st-format-btn st-format-btn--' + format.name + ' ' +
           (format.iconName ? 'st-icon' : ''),
@@ -72,6 +73,9 @@ Object.assign(FormatBar.prototype, require('./function-bind'), require('./mediat
     }
 
     this.isShown = true;
+
+    var block = utils.getBlockBySelection();
+    this.checkAvailability(block.excludeFormats);
 
     this.editor.$outer.append(this.$el);
     this.$el.addClass('st-format-bar--is-ready');
@@ -130,6 +134,16 @@ Object.assign(FormatBar.prototype, require('./function-bind'), require('./mediat
     this.highlightSelectedButtons();
 
     return false;
+  },
+
+  checkAvailability: function (exclude) {
+    this.$btns.forEach(function(btn) {
+      var cmd = $(btn).data('cmd');
+      var state = false;
+      if (_.isUndefined(exclude) || _.isUndefined(exclude[cmd])) { state = false; }
+      else { state = exclude[cmd]; }
+      btn.toggleClass("st-format-btn--hide", state);
+    }, this);
   }
 
 });
