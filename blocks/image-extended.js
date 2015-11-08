@@ -20,7 +20,7 @@ SirTrevor.Blocks.ImageExtended = SirTrevor.Blocks.Image.extend({
     if (!beforeUpload && url) {
       this.notEmptyUpload = true; // allow validation
     }
-    this.$editor.append($('<input>', {type: 'text', class: 'st-input-string js-caption-input', name: 'caption', placeholder: i18n.t('blocks:image:caption'), style: '', value: data.caption}));
+    this.$editor.append($('<input>', {type: 'text', class: 'st-input-string js-caption-input', name: 'caption', placeholder: i18n.t('blocks:image:caption'), style: '', value: data.caption, onblur: 'this.placeholder = i18n.t("blocks:image:caption")', onfocus: 'this.placeholder = ""'}));
   },
 
   onBlockRender: function(){
