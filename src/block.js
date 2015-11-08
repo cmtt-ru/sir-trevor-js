@@ -516,11 +516,11 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
       var defaultOption = false;
       option_group.slug = utils.toSlug(option_group.name);
       option_group.label = i18n.t('options:' + option_group.slug +':_label');
-      if (!option_group.label) { option_group.label = option_group.name }
+      if (!option_group.label) { option_group.label = option_group.name; }
       option_group.options.forEach(function(option){
         if (option.default) { defaultOption = option.value; }
         option.label = i18n.t('options:' + option_group.slug +':' + option.value);
-        if (!option.label) { option.label = option.text}
+        if (!option.label) { option.label = option.text; }
         if (_.isUndefined(option.text)) { option.text = ''; }
       });
       this.$option = this.$option.add("<input name='" + option_group.slug + "' type='hidden' value='" + defaultOption + "'>");

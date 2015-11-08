@@ -70,5 +70,12 @@ SirTrevor.Blocks.LinkEmbed = (function(){
             }
             return true;
         },
+
+        onBlockRender: function() {
+            this.$inputs.find('input').on('blur', $.proxy(function (e) {
+                var url = $(e.target).val()
+                if (url) { this.handleDropPaste(url); }
+            }, this) );
+        }
     });
 })();
