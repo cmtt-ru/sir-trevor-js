@@ -21,7 +21,9 @@ module.exports = Block.extend({
     allowBlockElements: true,
     tags: {
       p: true,
-      br: false
+      br: false,
+      b: true,
+      i: true
     }
   },
 

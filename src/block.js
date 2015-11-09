@@ -214,7 +214,10 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
     if (this.$(':input').not('.st-paste-block').length > 0) {
       this.$(':input').each(function(index,input){
         if (input.getAttribute('name')) {
-          data[input.getAttribute('name')] = input.value;
+          var value = input.value;
+          if (value === 'true') { value = true; }
+          if (value === 'false') { value = false; }
+          data[input.getAttribute('name')] = value;
         }
       });
     }
@@ -519,7 +522,7 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
       if (!option_group.label) { option_group.label = option_group.name; }
       option_group.options.forEach(function(option){
         if (option.default) { defaultOption = option.value; }
-        option.label = i18n.t('options:' + option_group.slug +':' + option.value);
+        option.label = i18n.t('options:' + option_group.slug +':' + option.text);
         if (!option.label) { option.label = option.text; }
         if (_.isUndefined(option.text)) { option.text = ''; }
       });

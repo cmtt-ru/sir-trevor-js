@@ -71,13 +71,13 @@ SirTrevor.Locales.ru = {
   options: {
     size: {
       '_label': 'Размер',
-      'big' : 'По центру',
-      'small' : 'Врезка'
+      'bg' : 'По центру',
+      'sm' : 'Врезка'
     },
     background: {
       '_label': 'Фон',
-      'dark': 'Темный',
-      'light': 'Светлый',
+      'dr': 'Темный',
+      'lt': 'Светлый',
       'no': 'Нет'
     },
     border: {

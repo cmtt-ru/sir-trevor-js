@@ -8,8 +8,9 @@ SirTrevor.Blocks.ImageExtended = SirTrevor.Blocks.Image.extend({
 
   icon_name: 'image',
 
-  blockOptions: [{name:'Background',options:[{text: 'dr', value: 'dark'},{text: 'lt', value: 'light'},{text: 'no', value: 'no', default: true}]},{name:'Border',options:[{text:'yes',value:'yes'},{text:'no',value:'no',default: true}]}],
+  isCover: false,
 
+  blockOptions: [{name:'Background',options:[{text: 'dr', value: 'dark'},{text: 'lt', value: 'light'},{text: 'no', value: false, default: true}]},{name:'Border',options:[{text:'yes',value:true},{text:'no',value:false,default: true}]}],
 
   loadData: function(data, beforeUpload){
     // Create our image tag
@@ -20,6 +21,7 @@ SirTrevor.Blocks.ImageExtended = SirTrevor.Blocks.Image.extend({
     if (!beforeUpload && url) {
       this.notEmptyUpload = true; // allow validation
     }
+    if (data.cover) { this.isCover = true; }
     this.$editor.append($('<input>', {type: 'text', class: 'st-input-string js-caption-input', name: 'caption', placeholder: i18n.t('blocks:image:caption'), style: '', value: data.caption, onblur: 'this.placeholder = i18n.t("blocks:image:caption")', onfocus: 'this.placeholder = ""'}));
   },
 
@@ -30,9 +32,7 @@ SirTrevor.Blocks.ImageExtended = SirTrevor.Blocks.Image.extend({
       this.onDrop(ev.currentTarget);
     }, this)).prop('accept','image/*');
 
-    this.isCover = false;
-
-    this.$set_cover_ui = $('<a class="st-block-ui-btn st-block-ui-image-cover">' + i18n.t('blocks:image:set_cover') + '</a>');
+    this.$set_cover_ui = $('<a class="st-block-ui-btn st-block-ui-image-cover">' + (this.isCover ? i18n.t('blocks:image:cover') : i18n.t('blocks:image:set_cover')) + '</a>');
     this.$ui.append(this.$set_cover_ui);
     this.$set_cover_ui.bind('click', this.onCoverClicked.bind(this));
 

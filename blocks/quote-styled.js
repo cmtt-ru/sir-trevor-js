@@ -5,5 +5,5 @@ SirTrevor.Blocks.QuoteStyled = SirTrevor.Blocks.Quote.extend({
 
     type: "quote_styled",
 
-    blockOptions: [{name:'size', options:[{icon: '', value: 'small', default: true}, {icon: '', value: 'big'}]}]
+    blockOptions: [{name:'size', options:[{text: 'sm', value: 'small', default: true}, {text: 'bg', value: 'big'}]}]
 });
