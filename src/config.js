@@ -80,6 +80,7 @@ module.exports = {
           iconName: "link",
           cmd: "linkPrompt",
           text : "link",
+          keyCode: 76
         },
         {
           name: "Unlink",
@@ -87,6 +88,7 @@ module.exports = {
           iconName: "link",
           cmd: "unlink",
           text : "link",
+          keyCode: 75
         },
       ],
     },

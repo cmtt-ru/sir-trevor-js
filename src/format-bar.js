@@ -45,7 +45,6 @@ Object.assign(FormatBar.prototype, require('./function-bind'), require('./mediat
     this.$btns = [];
 
     this.commands.forEach(function(format) {
-      format.availabe = true;
       var btn = $("<button>", {
         'class': 'st-format-btn st-format-btn--' + format.name + ' ' +
           (format.iconName ? 'st-icon' : ''),

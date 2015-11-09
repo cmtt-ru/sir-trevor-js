@@ -77,7 +77,8 @@ SirTrevor.Locales.ru = {
     background: {
       '_label': 'Фон',
       'dark': 'Темный',
-      'light': 'Светлый'
+      'light': 'Светлый',
+      'no': 'Нет'
     },
     border: {
       '_label': 'Обводка',
