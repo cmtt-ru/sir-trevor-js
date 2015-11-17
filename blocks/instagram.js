@@ -49,21 +49,21 @@ SirTrevor.Blocks.Instagram = (function(){
                 url: this.fetchUrl(url),
                 dataType: "json"
             };
-            lastEmbed = null;
-            lastURL = url;
+            this.lastEmbed = null;
+            this.lastURL = url;
 
             this.fetch(ajaxOptions, this.onSuccess, this.onFail);
         },
 
         validInstagramUrl: function(url) {
-            return (/^https?:\/\/instagr(\.am|am\.com)\/p\/[a-zA-Z0-9-_]+/.test(url));
+            return (/^https?:\/\/(www.)?instagr(\.am|am\.com)\/p\/[a-zA-Z0-9-_]+/.test(url));
         },
 
         onSuccess: function(data) {
             lastEmbed = data.html;
-            this.setAndLoadData({ instagram_url: lastURL });
+            this.setAndLoadData({ instagram_url: this.lastURL });
             this.ready();
-            lastURL = null;
+            this.lastURL = null;
             this.contentFetched = true;
         },
 
