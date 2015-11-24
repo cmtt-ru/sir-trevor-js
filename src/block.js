@@ -551,7 +551,7 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
 
       block.$el
         .on('keyup','.st-text-block', function(ev) {
-          if(ev.which === 17 || ev.which === 224 || ev.which === 91) {
+          if(ev.which === 17 || ev.which === 224 || ev.which === 91 || ev.which === 9) {
             ctrlDown = false;
           }
         })
@@ -564,6 +564,9 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
             ev.preventDefault();
             block.execTextBlockCommand(ev.data.formatter.cmd);
           }
+        })
+        .on('blur, focus', '.st-text-block', function(ev){
+          ctrlDown = false;
         });
     });
   },
