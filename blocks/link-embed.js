@@ -64,8 +64,14 @@ SirTrevor.Blocks.LinkEmbed = (function(){
         linkValidation: function() {
             if (!this.contentFetched) {
                 var field = this.$('[type="text"]');
-                this.setError(field, i18n.t("errors:block_empty",
-                    { name: i18n.t("blocks:link_embed:title") }));
+                var errorLabel = '';
+                if (i18n.t("blocks:link_embed:empty_error")) {
+                    errorLabel = i18n.t("blocks:link_embed:empty_error");
+                }
+                else {
+                    errorLabel = i18n.t("errors:block_empty", { name: i18n.t("blocks:link_embed:title") });
+                }
+                this.setError(field, errorLabel);
                 return false;
             }
             return true;

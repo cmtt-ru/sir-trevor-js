@@ -20,7 +20,9 @@
 <body>
   <form>
     <div class="errors"></div>
-    <textarea class="sir-trevor" name="content">{"data":[{"type":"link_embed","data":{}},{"type":"text_fixed","data":{"text":"<p>Hello, I'm <b>Sir Trevor</b>.<br>Create some new blocks and see <i>what I can do</i>.<br></p>","format":"html"}},{"type":"list_styled","data":{"format":"html","listItems":[{"content":"1"},{"content":"2"},{"content":"3"}],"list-types":"ol"}},{"type":"heading_styled","data":{"text":"Test header","format":"html","heading-styles":"h4"}}]}</textarea>
+    <textarea class="sir-trevor" name="content">
+      {"data":[{"type":"text","data":{"text":"<p>dfdsfds<\/p>","format":"html"}},{"type":"instagram","data":{"instagram_url":"https:\/\/www.instagram.com\/p\/-JZENNDbDI\/"}}]}
+    </textarea>
     <input type="submit" value="Submit">
   </form>
 
@@ -41,6 +43,7 @@
   <script src="../locales/ru.js" type="text/javascript" charset="utf-8"></script>
   <script src="../blocks/text_limited.js" type="text/javascript" charset="utf-8"></script>
   <script src="../blocks/instagram.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../blocks/wtrfall.js" type="text/javascript" charset="utf-8"></script>
   <script type="text/javascript" charset="utf-8">
     $(function(){
       SirTrevor.config.debug = true;
@@ -67,7 +70,8 @@
           "ImageExtended",
           "LinkEmbed",
           "TextFixed",
-          "Instagram"
+          "Instagram",
+          "Wtrfall"
         ],
         defaultType: "Text",
         required: ["TextFixed", "LinkEmbed"],
@@ -87,5 +91,12 @@
 
     });
   </script>
+  <article>
+
+    <br>
+    <div class="wtf-broadcast-4413" data-broadcasting="" data-locale="ru" data-broadcast="4413" data-space="53" data-fb-app-id="506675079378064"></div>
+  </article>
+  <script> (function(d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = "//wtrfall.com/widget.js?id=53"; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'wtf-embed'));</script><script>(function() { if (!window.WTF || !WTF.bootstrap || !WTF.bootstrap("wtf-broadcast-4413")) setTimeout(arguments.callee, 50); }());</script>
+
 </body>
 </html>

@@ -50,6 +50,7 @@ SirTrevor.Locales.ru = {
     instagram: {
       'title': "Instagram",
       'fetch_error': "Есть проблемы с загрузкой",
+      'empty_error': "Вы забыли добавить Инстаграм",
       'drop': "Instagram"
     },
     embedly: {
@@ -64,6 +65,7 @@ SirTrevor.Locales.ru = {
     link_embed: {
       'title': 'Ссылка',
       'fetch_error': "Есть проблемы с загрузкой",
+      'empty_error': "Вы забыли добавить ссылку",
       'drop': "ссылку"
     },
     wtrfall: {

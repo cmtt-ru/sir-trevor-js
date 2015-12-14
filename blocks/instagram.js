@@ -82,8 +82,14 @@ SirTrevor.Blocks.Instagram = (function(){
         instagramValidation: function() {
             if (!this.contentFetched) {
                 var field = this.$('[type="text"]');
-                this.setError(field, i18n.t("errors:block_empty",
-                    { name: i18n.t("blocks:instagram:title") }));
+                var errorLabel = '';
+                if (i18n.t("blocks:instagram:empty_error")) {
+                    errorLabel = i18n.t("blocks:instagram:empty_error");
+                }
+                else {
+                    errorLabel = i18n.t("errors:block_empty", { name: i18n.t("blocks:instagram:title") });
+                }
+                this.setError(field, errorLabel);
                 return false;
             }
             return true;

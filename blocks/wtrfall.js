@@ -9,7 +9,7 @@ SirTrevor.Blocks.Wtrfall = (function(){
     icon_name: 'image',
 
     editorHTML: function() {
-      return '<label>' + i18n.t("blocks:wtrfall:label") + '<input maxlength="140" name="id" placeholder="' + i18n.t("blocks:wtrfall:placeholder") + '" class="st-input-string js-wtrfall-input" type="text" /></label>';
+      return '<label>' + i18n.t("blocks:wtrfall:label") + '<input maxlength="140" name="id" placeholder="' + i18n.t("blocks:wtrfall:placeholder") + '" class="st-input-string st-required js-wtrfall-input" type="text" /></label>';
     },
 
     loadData: function(data){
