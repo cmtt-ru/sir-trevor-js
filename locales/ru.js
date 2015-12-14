@@ -65,6 +65,11 @@ SirTrevor.Locales.ru = {
       'title': 'Ссылка',
       'fetch_error': "Есть проблемы с загрузкой",
       'drop': "ссылку"
+    },
+    wtrfall: {
+      'title': 'Трансляция',
+      'label': 'Введите ID трансляции: ',
+      'placeholder': 'ID трансляции'
     }
   },
 
