@@ -39,11 +39,21 @@ module.exports = Block.extend({
     var aspectRatioClass = source.square ?
       'with-square-media' : 'with-sixteen-by-nine-media';
 
+    var source_id = '';
+    if (data.time) {
+      source_id = data.remote_id + source.timestamp + data.time;
+    }
+    else {
+      source_id = data.remote_id;
+    }
+
+    console.log('time', data.time, source_id);
+
     this.$editor
       .addClass('st-block__editor--' + aspectRatioClass)
       .html(_.template(source.html, {
         protocol: protocol,
-        remote_id: data.remote_id,
+        remote_id: source_id,
         width: this.$editor.width() // for videos like vine
       }));
 
@@ -58,10 +68,18 @@ module.exports = Block.extend({
     var match = provider.regex.exec(url);
     if(match == null || _.isUndefined(match[1])) { return {}; }
 
-    return {
+    console.log('match', match);
+
+    var videoData = {
       source: index,
       remote_id: match[1]
     };
+
+    if (!_.isUndefined(match[2])){
+      videoData.time = match[2];
+    }
+
+    return videoData;
   },
 
   isValidVideoUrl: function(url) {
