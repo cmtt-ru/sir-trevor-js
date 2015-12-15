@@ -72,6 +72,11 @@ SirTrevor.Locales.ru = {
       'title': 'Трансляция',
       'label': 'Введите ID трансляции: ',
       'placeholder': 'ID трансляции'
+    },
+    rawhtml: {
+      'title': 'HTML',
+      'label': 'Raw HTML: ',
+      'placeholder': 'Вставьте сюда код'
     }
   },
 
