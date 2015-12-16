@@ -77,6 +77,11 @@ SirTrevor.Locales.ru = {
       'title': 'HTML',
       'label': 'Raw HTML: ',
       'placeholder': 'Вставьте сюда код'
+    },
+    gallery: {
+      'title': "Галерея",
+      'upload_error': "Есть проблемы с загрузкой",
+      'drop': "картинку"
     }
   },
 
