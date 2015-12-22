@@ -13,8 +13,13 @@ SirTrevor.Blocks.ImageExtended = SirTrevor.Blocks.Image.extend({
 
   blockOptions: [{name:'Background',options:[{text: 'dr', value: 'dark'},{text: 'lt', value: 'light'},{text: 'no', value: false, default: true}]},{name:'Border',options:[{text:'yes',value:true},{text:'no',value:false,default: true}]}],
 
-  fetchUrl: function() {
-    return "/club/fetchImage";
+  fetchUrl: function(type) {
+    if (type === 'instagram') {
+      return "/club/fetchImageInstagram";
+    }
+    else {
+      return "/club/fetchImage";
+    }
   },
 
   loadData: function(data, beforeUpload){
@@ -53,8 +58,19 @@ SirTrevor.Blocks.ImageExtended = SirTrevor.Blocks.Image.extend({
 
   onContentPasted: function(event){
     var input = $(event.target),
-      val = input.val();
-    $.post(this.fetchUrl(), {url: val}, $.proxy(function(data){
+      url = input.val(),
+      type = '';
+
+    if (/^https?:\/\/(www.)?instagr(\.am|am\.com)\/p\/[a-zA-Z0-9-_]+/.test(url)) {
+      type = 'instagram';
+    }
+
+    this.$inputs.find('input').prop('disabled', true);
+    this.$inputs.find('button').prop('disabled', true);
+
+    this.loading();
+
+    $.post(this.fetchUrl(type), {url: url}, $.proxy(function(data){
       if (data.error){
         this.addMessage(i18n.t('blocks:image:upload_error'));
       }

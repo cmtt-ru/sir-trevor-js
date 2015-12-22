@@ -10,7 +10,7 @@ var tweet_template = _.template([
   "<blockquote class='twitter-tweet' align='center'>",
   "<p><%= text %></p>",
   "&mdash; <%= user.name %> (@<%= user.screen_name %>)",
-  "<a href='<%= status_url %>' data-datetime='<%= created_at %>'><%= created_at %></a>",
+  "<a href='<%= status_url %>' data-datetime='<%= created_at %>' <% if hide_media %> data-cards=\"hidden\" <% endif %> <% if hide_thread %> data-conversation=\"none\" <% endif %> ><%= created_at %></a>",
   "</blockquote>",
   '<script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>'
 ].join("\n"));
@@ -27,6 +27,8 @@ module.exports = Block.extend({
   },
 
   contentFetched: false,
+
+  blockOptions: [{name:'Media',options:[{text: 'Show', value: true, default: true},{text: 'Hide', value: false}]},{name:'Conversation',options:[{text:'Show',value:true,default: true},{text:'Hide',value:false}]}],
 
   title: function(){ return i18n.t('blocks:tweet:title'); },
   title_drop: function(){ return i18n.t('blocks:tweet:drop'); },
@@ -49,7 +51,7 @@ module.exports = Block.extend({
   onContentPasted: function(event){
     // Content pasted. Delegate to the drop parse method
     var input = $(event.target),
-    val = input.val();
+      val = input.val();
 
     // Pass this to the same handler as onDrop
     this.handleTwitterDropPaste(val);
@@ -78,8 +80,8 @@ module.exports = Block.extend({
 
   validTweetUrl: function(url) {
     return (utils.isURI(url) &&
-            url.indexOf("twitter") !== -1 &&
-            url.indexOf("status") !== -1);
+    url.indexOf("twitter") !== -1 &&
+    url.indexOf("status") !== -1);
   },
 
   onTweetSuccess: function(data) {
@@ -118,9 +120,9 @@ module.exports = Block.extend({
     if (!this.contentFetched) {
       var field = this.$('[type="text"]');
       this.setError(field, i18n.t("errors:block_empty",
-          { name: i18n.t("blocks:tweet:title") }));
+        { name: i18n.t("blocks:tweet:title") }));
       return false;
     }
     return true;
-  },
+  }
 });

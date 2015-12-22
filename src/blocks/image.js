@@ -25,6 +25,7 @@ module.exports = Block.extend({
 
   onBlockRender: function(){
     /* Setup the upload button */
+    this.$inputs.show();
     this.$inputs.find('button').bind('click', function(ev){ ev.preventDefault(); });
     this.$inputs.find('input').on('change', (function(ev) {
       this.onDrop(ev.currentTarget);
@@ -67,5 +68,5 @@ module.exports = Block.extend({
       return false;
     }
     return true;
-  },
+  }
 });
