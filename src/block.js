@@ -338,7 +338,7 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
       var inputName = $(e.target).attr('data-name');
 
       // Set value
-      this.$option.filter('[name=' + inputName + ']').val(value);
+      this.$option.filter('[name=' + inputName + ']').val(value).triggerHandler('change');
 
       // Update class
       this.setOptionClass(inputName, value);
@@ -374,9 +374,9 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
 
     var $options_el = this.$inner.find('.st-block__ui-options-controls');
 
-    this.$inner.on('click', '.st-block-ui-btn--confirm-options',
+    this.$inner.one('click', '.st-block-ui-btn--confirm-options',
         onOptionsConfirm.bind(this))
-        .on('click', '.st-block-ui-btn--deny-options',
+        .one('click', '.st-block-ui-btn--deny-options',
         onOptionsDeny.bind(this));
   },
 
