@@ -7,10 +7,10 @@ var utils = require('../utils');
 var Block = require('../block');
 
 var tweet_template = _.template([
-  "<blockquote class='twitter-tweet' align='center'>",
+  "<blockquote class='twitter-tweet' align='center' <% if (!media) { %> data-cards=\"hidden\" <% } %> <% if (!conversation) { %> data-conversation=\"none\" <% } %>>",
   "<p><%= text %></p>",
   "&mdash; <%= user.name %> (@<%= user.screen_name %>)",
-  "<a href='<%= status_url %>' data-datetime='<%= created_at %>' <% if hide_media %> data-cards=\"hidden\" <% endif %> <% if hide_thread %> data-conversation=\"none\" <% endif %> ><%= created_at %></a>",
+  "<a href='<%= status_url %>' data-datetime='<%= created_at %>'><%= created_at %></a>",
   "</blockquote>",
   '<script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>'
 ].join("\n"));
@@ -28,7 +28,7 @@ module.exports = Block.extend({
 
   contentFetched: false,
 
-  blockOptions: [{name:'Media',options:[{text: 'Show', value: true, default: true},{text: 'Hide', value: false}]},{name:'Conversation',options:[{text:'Show',value:true,default: true},{text:'Hide',value:false}]}],
+  blockOptions: [{name:'Media',options:[{text: 'Hide', value: false},{text: 'Show', value: true, default: true}]},{name:'Conversation',options:[{text:'Hide',value:false},{text:'Show',value:true,default: true}]}],
 
   title: function(){ return i18n.t('blocks:tweet:title'); },
   title_drop: function(){ return i18n.t('blocks:tweet:drop'); },
@@ -42,6 +42,10 @@ module.exports = Block.extend({
   loadData: function(data) {
     if (_.isUndefined(data.status_url)) { data.status_url = ''; }
     this.$inner.find('iframe').remove();
+    this.$inner.find('script').remove();
+    console.log(data);
+    if (!data.media) { data.media = false; }
+    if (!data.conversation) { data.conversation = false; }
     this.$inner.prepend(tweet_template(data));
     if (data.id) {
       this.contentFetched = true;
@@ -112,6 +116,16 @@ module.exports = Block.extend({
   onDrop: function(transferData){
     var url = transferData.getData('text/plain');
     this.handleTwitterDropPaste(url);
+  },
+
+  onBlockRender: function(){
+    this.$option.filter('input').on('change',$.proxy(function(){
+      var obj = this._getData();
+      var opts = this._serializeData();
+      obj.media = opts.media;
+      obj.conversation = opts.conversation;
+      this.loadData(obj);
+    },this));
   },
 
   validations: ['tweetValidation'],
