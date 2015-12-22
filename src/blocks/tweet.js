@@ -28,7 +28,7 @@ module.exports = Block.extend({
 
   contentFetched: false,
 
-  blockOptions: [{name:'Media',options:[{text: 'Hide', value: false},{text: 'Show', value: true, default: true}]},{name:'Conversation',options:[{text:'Hide',value:false},{text:'Show',value:true,default: true}]}],
+  blockOptions: [{name:'Media',options:[{text: 'Hide', value: false}, {text: 'Show', value: true, default: true}]},{name:'Conversation', options:[{text:'Hide', value:false, default: true}, {text:'Show', value:true}]}],
 
   title: function(){ return i18n.t('blocks:tweet:title'); },
   title_drop: function(){ return i18n.t('blocks:tweet:drop'); },

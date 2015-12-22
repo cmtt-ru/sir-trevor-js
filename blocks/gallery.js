@@ -50,7 +50,12 @@ SirTrevor.Blocks.Gallery = SirTrevor.Blocks.Image.extend({
 
     if (!data.file[0]) { url = data.file.url } else { url = data.file[0].url }
 
-    var $i = $('<img>', { src: url, class: 'st-gallery-item', 'data-url': data.file.url, 'data-bigurl': data.file.bigUrl, 'data-width': data.file.width,'data-height': data.file.height });
+    var $i = $('<div>', { class: 'st-gallery-item', 'data-url': data.file.url, 'data-bigurl': data.file.bigUrl, 'data-width': data.file.width,'data-height': data.file.height });
+    $i.append('<img src="' + url + '">');
+    $i.append('<a class="st-block-ui-btn st-block-ui-btn--delete st-icon"></a>');
+    $i.find('a').click(function(e){
+      $i.remove();
+    });
     this.$editor.append($i).show().sortable();
     if (!beforeUpload && url) {
       this.notEmptyUpload = true; // allow validation

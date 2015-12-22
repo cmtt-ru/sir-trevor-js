@@ -101,6 +101,16 @@ SirTrevor.Locales.ru = {
       '_label': 'Обводка',
       'yes': 'Есть',
       'no': 'Нет'
+    },
+    media: {
+      '_label': 'Медиа',
+      'Show': 'Есть',
+      'Hide': 'Нет'
+    },
+    media: {
+      '_label': 'Ответы',
+      'Show': 'Есть',
+      'Hide': 'Нет'
     }
   }
 };
