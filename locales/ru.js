@@ -107,7 +107,7 @@ SirTrevor.Locales.ru = {
       'Show': 'Есть',
       'Hide': 'Нет'
     },
-    media: {
+    conversation: {
       '_label': 'Ответы',
       'Show': 'Есть',
       'Hide': 'Нет'
