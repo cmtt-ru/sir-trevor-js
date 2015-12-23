@@ -13,7 +13,7 @@ SirTrevor.Blocks.Wtrfall = (function(){
     },
 
     loadData: function(data){
-      this.$('.js-wtrfall-input').val(data.cite);
+      this.$('.js-wtrfall-input').val(data.id);
     }
   });
 

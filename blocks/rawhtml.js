@@ -9,11 +9,11 @@ SirTrevor.Blocks.Rawhtml = (function(){
     icon_name: 'image',
 
     editorHTML: function() {
-      return '<label>' + i18n.t("blocks:rawhtml:label") + '<textarea name="raw" placeholder="' + i18n.t("blocks:rawhtml:placeholder") + '" class="st-input-string st-required js-wtrfall-input" type="text" /></label>';
+      return '<label>' + i18n.t("blocks:rawhtml:label") + '<textarea name="raw" class="st-input-string st-required js-rawhtml-input"></textarea></label>';
     },
 
     loadData: function(data){
-      this.$('.js-rawhtml-input').val(data.cite);
+      this.$('.js-rawhtml-input').val(data.raw);
     }
   });
 
