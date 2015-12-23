@@ -345,6 +345,7 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
 
       this.$el.removeClass('st-block--options-active');
       this.$ui.show();
+      this.$inner.off('click', '.st-block-ui-btn--deny-options');
       $options_el.remove();
     };
 
@@ -352,6 +353,7 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
       e.preventDefault();
       this.$el.removeClass('st-block--options-active');
       this.$ui.show();
+      this.$inner.off('click', '.st-block-ui-btn--confirm-options');
       $options_el.remove();
     };
 
