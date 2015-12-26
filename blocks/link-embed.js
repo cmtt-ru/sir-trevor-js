@@ -33,6 +33,7 @@ SirTrevor.Blocks.LinkEmbed = (function(){
         },
 
         handleDropPaste: function(url){
+            this.$inputs.find('input').off('blur');
             this.loading();
 
             var ajaxOptions = {
@@ -52,6 +53,10 @@ SirTrevor.Blocks.LinkEmbed = (function(){
         onFail: function() {
             this.addMessage(i18n.t("blocks:link_embed:fetch_error"));
             this.ready();
+            this.$inputs.find('input').on('blur', $.proxy(function (e) {
+                var url = $(e.target).val();
+                if (url && !this.contentFetched) { this.handleDropPaste(url); }
+            }, this) );
         },
 
         onDrop: function(transferData){
@@ -79,8 +84,8 @@ SirTrevor.Blocks.LinkEmbed = (function(){
 
         onBlockRender: function() {
             this.$inputs.find('input').on('blur', $.proxy(function (e) {
-                var url = $(e.target).val()
-                if (url) { this.handleDropPaste(url); }
+                var url = $(e.target).val();
+                if (url && !this.contentFetched) { this.handleDropPaste(url); }
             }, this) );
         }
     });
