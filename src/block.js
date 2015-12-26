@@ -291,6 +291,8 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
                        onDeleteDeny.bind(this));
   },
 
+  onClear: function(){},
+
   onClearClick : function(ev) {
     ev.preventDefault();
 
@@ -300,17 +302,20 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
       this.$editor.hide();
       this.$inputs.find('input').val('');
       this.$inputs.show();
+      this.onClear();
       if ($clear_el) {
         $clear_el.remove();
       }
       this.$el.removeClass('st-block--delete-active');
       this.mediator.trigger('block:showBlockControlsOnBottom');
+      this.$inner.off('click', '.st-block-ui-btn--deny-delete');
     };
 
     var onClearDeny = function(e) {
       e.preventDefault();
       this.$el.removeClass('st-block--delete-active');
       $clear_el.remove();
+      this.$inner.off('click', '.st-block-ui-btn--deny-delete');
     };
 
     if (this.isEmpty()) {
@@ -323,9 +328,9 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
 
     var $clear_el = this.$inner.find('.st-block__ui-delete-controls');
 
-    this.$inner.on('click', '.st-block-ui-btn--confirm-delete',
+    this.$inner.one('click', '.st-block-ui-btn--confirm-delete',
         onClearConfirm.bind(this))
-        .on('click', '.st-block-ui-btn--deny-delete',
+        .one('click', '.st-block-ui-btn--deny-delete',
         onClearDeny.bind(this));
   },
 
